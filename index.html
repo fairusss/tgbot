@@ -21,7 +21,7 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    document.getElementById("sharePhone").addEventListener("click", async () => {
+    document.getElementById("loginbtn").addEventListener("click", async () => {
       try {
         // :fire: Новий офіційний метод — викликає popup Telegram
         const contact = await tg.requestContact();
