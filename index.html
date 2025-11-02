@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quest Market</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="scripts.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,28 +13,7 @@
     <img class="main-logo" src="./ico.png" alt="">
   <h1>Quest Market</h1>
   <p>Натисни, щоб поділитися номером телефону 👇</p>
-  <button id="getPhoneBtn">Поділитись номером</button>
-
-  <script>
-    const tg = window.Telegram.WebApp;
-
-    // Ініціалізація WebApp
-    tg.expand();
-
-    document.getElementById("getPhoneBtn").addEventListener("click", async () => {
-      try {
-        // Запит номера телефону
-        const result = await tg.requestPhoneNumber();
-        if (result) {
-          alert("Ваш номер телефону: " + result);
-          // Ти можеш тут відправити його на свій backend через fetch()
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Користувач відмінив або сталася помилка.");
-      }
-    });
-  </script>
+  <button id="sharePhone">Поділитись номером</button>
     </div>
 
     <div class="page2">
