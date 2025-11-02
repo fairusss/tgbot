@@ -15,14 +15,11 @@
 }
 
 #bg {
+    margin-top: 7rem;
     position: absolute;
-    top: 0;
-    left: 0;
-    margin-left: 140px;
-    margin-top: 100px;
     border-radius: 30px;
     width: 360px;
-    height: 420px;
+    height: 400px;
     z-index: -1;
     background-color: rgba(43, 43, 43, 0.541);
 }
