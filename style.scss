@@ -3,14 +3,15 @@ $gap: .5*$char-w;
 $n-char: 7;
 $in-w: $n-char*($char-w + $gap);
 
-
 body {
     font-family: Arial, sans-serif;
-    background-image: url('bg.jpg');
     margin: 0;
     padding: 20px;
+    background-color: #111;
+    color: white;
+    text-align: center;
+    margin-top: 120px;
 }
-
 
 .code2fa {
 	display: block;
@@ -29,4 +30,23 @@ body {
 		outline: none;
 		color: dodgerblue;
 	}
+}
+
+.main-logo {
+    height: 3rem;
+}
+
+button {
+    background: linear-gradient(45deg, #68ba4f, #119129);
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #68ba4f, #14d036);
 }
