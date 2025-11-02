@@ -1,32 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>digga</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fairusss Telegram WebApp</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 120px;
+    }
+    button {
+      background: linear-gradient(45deg, #ff4d4d, #ff8800);
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(45deg, #ff6600, #ffaa00);
+    }
+  </style>
 </head>
 <body>
-    <button>HUY</button>
+  <h1>Fairusss WebApp</h1>
+  <p>Натисни, щоб поділитися номером телефону 👇</p>
+  <button id="getPhoneBtn">Поділитись номером</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+
+    // Ініціалізація WebApp
+    tg.expand();
+
+    document.getElementById("getPhoneBtn").addEventListener("click", async () => {
+      try {
+        // Запит номера телефону
+        const result = await tg.requestPhoneNumber();
+        if (result) {
+          alert("Ваш номер телефону: " + result);
+          // Ти можеш тут відправити його на свій backend через fetch()
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Користувач відмінив або сталася помилка.");
+      }
+    });
+  </script>
 </body>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<button id="sharePhone">HUY</button>
-
-<script>
-  const tg = window.Telegram.WebApp;
-
-  document.getElementById("sharePhone").addEventListener("click", async () => {
-    try {
-      const result = await tg.requestPhoneNumber();
-      alert("Ваш номер: " + result);
-    } catch (error) {
-      alert("Помилка або користувач відмінив дію");
-      console.error(error);
-    }
-  });
-</script>
-    
 </html>
-
