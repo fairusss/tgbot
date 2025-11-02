@@ -92,8 +92,7 @@ button:hover {
 
 .load-bg{
     background-image: url("bg.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size: auto 100%;
     position: fixed;
     top: 0;
     left: 0;
@@ -103,40 +102,80 @@ button:hover {
     z-index: -1;
     /* filter: blur(2px); */
     opacity: 0.7;
-    /* transform: rotate3d(1,1,0.3,310deg) scale(2); */
+    transform: rotate3d(1,1,1,320deg) scale(2);
 }
 
-#item1 {
+.bg-item {
     position: relative;
-    left: 150px;
-    top: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    background: radial-gradient( circle, #FFD07B, #FDB833);
 
-    box-shadow: 0 0 20px 2px #FFD07B;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
 }
 
-#item1 img {
-    /* display:none; */
-    width: 40px;
+.bg-item img {
+    width: 34px;
     border-radius: 10px;
 }
 
-#item1::after {
+.bg-item::after {
     content: "";
 
-    top: 5px;
-    left: -5px;
-    border-radius: 10px;
-    background: linear-gradient(45deg, #4d3305, #000000);
-    /* box-shadow: 0 0 20px #f4ffc2; */
+    width: 45px;
+    height: 45px;
+
+    top: 2px;
+    left: -3px;
+    border-radius: 5px;
     position: absolute;
     z-index: -3;
+}
+
+#item1 {
+    left: 450px;
+    top: 320px;
+    
+    background: radial-gradient( circle, #FFD07B, #FDB833);
+    box-shadow: 0 0 20px 0.1px #FFD07B;
+}
+#item1::after {
+    background-color: #4d3305;
+}
+
+#item2 {
+    left: 269px;
+    top: 368px;
+    
+    background: linear-gradient(45deg, #64db7a, #4eb561);
+    box-shadow: 0 0 20px 0.1px #64db7a;
+}
+#item2::after {
+    background-color: #0b7a1e;
+}
+
+#item3 {
+    left: 269px;
+    top: 368px;
+    
+    background: linear-gradient(45deg, #64db7a, #4eb561);
+    box-shadow: 0 0 20px 0.1px #64db7a;
+}
+#item3::after {
+    background-color: #0b7a1e;
+}
+
+#item4 {
+    left: 269px;
+    top: 368px;
+    
+    background: linear-gradient(45deg, #64db7a, #4eb561);
+    box-shadow: 0 0 20px 0.1px #64db7a;
+}
+#item4::after {
+    background-color: #0b7a1e;
 }
 
 .loadingpage {
