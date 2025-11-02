@@ -122,9 +122,8 @@ button:hover {
 }
 
 .page2 h1 {
-    font-size: 2.5em;
-    margin-top: 190px;
-    margin-bottom: 0px;
+    font-size: 2.1em;
+    margin: 0px;
 }
 
 input {
@@ -142,6 +141,7 @@ input {
 #passcode-btn {
     font-family: "Noto Sans Display", sans-serif;
     width: 8em;
+    margin-top: 20px;
 }
 
 input:focus::placeholder {
