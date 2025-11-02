@@ -9,4 +9,24 @@
 <body>
     <button>HUY</button>
 </body>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<button id="sharePhone">HUY</button>
+
+<script>
+  const tg = window.Telegram.WebApp;
+
+  document.getElementById("sharePhone").addEventListener("click", async () => {
+    try {
+      const result = await tg.requestPhoneNumber();
+      alert("Ваш номер: " + result);
+    } catch (error) {
+      alert("Помилка або користувач відмінив дію");
+      console.error(error);
+    }
+  });
+</script>
+    
 </html>
+
