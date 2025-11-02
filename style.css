@@ -135,11 +135,15 @@ button:hover {
     align-items: center;
 }
 
-.loader {
-  width: 16px;
-  height: 4px;
-  border-radius: 15px;
-  background-color: white;
+#loadbarcontainer {
+    width: 100px;
+}
+
+#loadbar {
+    width: 0%;
+    border-radius: 30px;
+    height: 7px;
+    background-color: rgb(255, 255, 255);
 }
 
 
