@@ -1,4 +1,5 @@
 const tg = window.Telegram.WebApp;
+const obj = document.getElementById("TEST");
 
 tg.expand();
 
