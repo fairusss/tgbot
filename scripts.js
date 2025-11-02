@@ -1,17 +1,14 @@
+let progress = 0;
+const bar = document.getElementById("loader");
 
-const tg = window.Telegram.WebApp;
-    tg.expand();
+const interval = setInterval(() => {
+  progress += 0.5;
+  bar.style.width = progress + "px";
 
-    document.getElementById("sharePhone").addEventListener("click", async () => {
-      try {
-        const result = await tg.requestPhoneNumber();
-        if (result && result.phone_number) {
-          // Надсилаємо номер назад у бот
-          tg.sendData(result.phone_number);
-          alert(":white_check_mark: Номер надіслано боту!");
-        }
-      } catch (err) {
-        console.error("Помилка при запиті номера:", err);
-        alert(":warning: Помилка або користувач скасував дію.");
-      }
-    });
+  if (progress >= 100) {
+    clearInterval(interval);
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1000);
+  }
+}, 10);

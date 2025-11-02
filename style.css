@@ -124,20 +124,10 @@ button:hover {
 }
 
 .loader {
-  width: 180px;
-  height: 8px;
-  border-radius: 20px;
-  color: #ffffff;
-  position: relative;
-}
-.loader::before {
-  content: "";
-  position: absolute;
-  margin: 2px;
-  inset: 0 100% 0 0;
-  border-radius: inherit;
-  background: currentColor;
-  animation: l6 2.1s infinite;
+  width: 16px;
+  height: 4px;
+  border-radius: 15px;
+  background-color: white;
 }
 
 
