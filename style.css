@@ -102,7 +102,7 @@ button:hover {
 #loadtext {
     font-family: "Outfit", sans-serif;
     font-size: 3em;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .loadingpage {
@@ -121,7 +121,7 @@ button:hover {
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 180px;
-  height: 4px;
+  height: 8px;
   border-radius: 20px;
   color: #ffffff;
   position: relative;
@@ -129,11 +129,13 @@ button:hover {
 .loader::before {
   content: "";
   position: absolute;
+  margin: 2px;
   inset: 0 100% 0 0;
   border-radius: inherit;
   background: currentColor;
   animation: l6 2.1s infinite;
 }
+
 
 .btn {
     margin-top: 30px;
