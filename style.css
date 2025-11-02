@@ -26,3 +26,12 @@ button:hover {
     transform: scale(1.05);
     background: linear-gradient(45deg, #68ba4f, #14d036);
 }
+
+#code2fa {
+    margin-top: 20px;
+    border-radius: 30px;
+    width: 10rem;
+    height: 2rem;
+    font-size: 16px;
+    color: #ccc;
+}
