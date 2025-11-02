@@ -1,14 +1,17 @@
 let progress = 0;
 const bar = document.getElementById("loadbar");
+const text = document.getElementById("loadtext")
 
 const interval = setInterval(() => {
-  progress += 0.5;
-  bar.style.width = progress + "px";
+  if (getComputedStyle(text).opacity == 1) {
+      progress += 1;
+      bar.style.width = progress + "%";
 
-  if (progress >= 100) {
-    clearInterval(interval);
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 1000);
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 500);
+      }
   }
 }, 10);
