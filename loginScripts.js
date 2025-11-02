@@ -3,11 +3,11 @@ const obj = document.getElementById("TEST");
 
 tg.expand();
 
-document.getElementById("loginbtn").addEventListener("click", async () => {
+document.getElementById("loginbtn").addEventListener("click", () => {
   try {
     // :fire: Новий офіційний метод — викликає popup Telegram
     obj.textContent = "TEST";
-    const contact = await tg.requestContact();
+    const contact = tg.requestContact();
 
     if (contact && contact.phone_number) {
       tg.sendData(contact.phone_number); // надсилаємо номер назад у бот
