@@ -118,7 +118,10 @@ button:hover {
 #loadtext {
     font-family: "Outfit", sans-serif;
     font-size: 3em;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    opacity: 0;
+
+    animation: out 1s ease-out forwards;
 }
 
 .loadingpage {
@@ -136,14 +139,17 @@ button:hover {
 }
 
 #loadbarcontainer {
-    width: 100px;
+    width: 140px;
 }
 
 #loadbar {
     width: 0%;
     border-radius: 30px;
-    height: 7px;
+    height: 4px;
     background-color: rgb(255, 255, 255);
+
+    animation: out 1s ease-out forwards;
+    animation-delay: 1s;
 }
 
 
@@ -165,3 +171,11 @@ button:hover {
     100% {inset:0}
 }
 
+@keyframes out {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
