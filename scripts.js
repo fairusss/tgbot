@@ -1,5 +1,5 @@
 let progress = 0;
-const bar = document.getElementById("loader");
+const bar = document.getElementById("loadbar");
 
 const interval = setInterval(() => {
   console.log(progress)
