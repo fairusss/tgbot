@@ -68,11 +68,6 @@ button:hover {
     transition: 0.5s;
     outline: none;
     border: 3px solid #007c02;
-}
-
-
-
-#code2fa:hover {
     animation: glow 1.5s infinite;
 }
 
