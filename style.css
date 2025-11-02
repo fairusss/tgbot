@@ -77,8 +77,30 @@ button:hover {
     margin-top: 50px;
 }
 
-.page1 {
-    display: none;
+#page1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginbtn {
+    margin-top: 30px;
+    font-family: "Outfit", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: #24A1DE;
+    width: 5em;
+    height: 3em;
+}
+
+#loginbtn img {
+    width: 20px;
+    margin-right: 10px;
 }
 
 .page2 {
@@ -184,7 +206,6 @@ button:hover {
     justify-content: center;
     align-items: center;
 }
-
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 180px;
@@ -203,6 +224,21 @@ button:hover {
   background: currentColor;
   animation: l6 2.1s infinite;
 }
+
+.btn {
+    margin-top: 30px;
+    font-family: "Outfit", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: #007c02;
+    width: 5em;
+    height: 3em;
+}
+
 @keyframes l6 {
     100% {inset:0}
 }
