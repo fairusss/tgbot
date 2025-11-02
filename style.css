@@ -118,7 +118,7 @@ button:hover {
     justify-content: center;
     align-items: center;
 }
-/* HTML: <div class="loader"></div> */
+
 .loader {
   width: 180px;
   height: 8px;
