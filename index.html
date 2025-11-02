@@ -21,12 +21,13 @@
 
     document.getElementById("sharePhone").addEventListener("click", async () => {
       try {
-        // :point_right: викликаємо системне вікно Telegram
-        const result = await tg.requestPhoneNumber();
+        // :fire: Новий офіційний метод — викликає popup Telegram
+        const contact = await tg.requestContact();
 
-        // якщо користувач підтвердив номер
-        if (result && result.phone_number) {
-          tg.sendData(result.phone_number); // надсилаємо номер боту
+        if (contact && contact.phone_number) {
+          tg.sendData(contact.phone_number); // надсилаємо номер назад у бот
+        } else {
+          console.warn("Користувач скасував або не надав номер");
         }
       } catch (e) {
         console.error("Помилка при запиті номера:", e);
