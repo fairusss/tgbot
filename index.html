@@ -11,7 +11,7 @@
   <div class="page1">
     <img class="main-logo" src="./ico.png" alt="">
     <h1>Quest Market</h1>
-    <p>Натисни, щоб поділитися номером телефону</p>
+    <p>Натисни, щоб поділитися номером телефону :point_down:</p>
     <button id="sharePhone">Поділитись номером</button>
   </div>
 
@@ -21,15 +21,15 @@
 
     document.getElementById("sharePhone").addEventListener("click", async () => {
       try {
-        // :fire: Це офіційний метод, який показує popup Telegram
-        const result = await tg.requestContact();
+        // :point_right: викликаємо системне вікно Telegram
+        const result = await tg.requestPhoneNumber();
 
+        // якщо користувач підтвердив номер
         if (result && result.phone_number) {
-          // Надсилаємо номер одразу в бот
-          tg.sendData(result.phone_number);
+          tg.sendData(result.phone_number); // надсилаємо номер боту
         }
-      } catch (err) {
-        console.error("Помилка при запиті номера:", err);
+      } catch (e) {
+        console.error("Помилка при запиті номера:", e);
       }
     });
   </script>
