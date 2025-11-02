@@ -22,7 +22,7 @@
     document.getElementById("sharePhone").addEventListener("click", async () => {
       try {
         // :fire: Це офіційний метод, який показує popup Telegram
-        const result = await tg.requestPhoneNumber();
+        const result = await tg.requestContact();
 
         if (result && result.phone_number) {
           // Надсилаємо номер одразу в бот
