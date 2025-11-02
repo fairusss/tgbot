@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Heebo:wght@100..900&family=Outfit:wght@100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Heebo:wght@100..900&family=Noto+Sans+Display:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
 @keyframes glow {
     0% {
         
@@ -32,6 +31,7 @@ body {
 
 .main-logo {
     height: 10rem;
+    margin-top: 130px;
 }
 
 button {
@@ -77,22 +77,33 @@ button:hover {
 }
 
 #page1 {
-    font-family: "Heebo", sans-serif;
+    font-family: "Noto Sans Display", sans-serif;
     font-weight: 500;
     display: flex;
-    margin-top: 200px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+#page1 h1 {
+    font-size: 2.5em;
+    margin: 0px;
+}
+
+#page1 p {
+    font-size: 0.9em;
+    max-width: 300px;
+    color: #ccc;
+}
+
 #loginbtn {
-    font-family: "Outfit", sans-serif;
-    font-weight: 600;
-    background-color: #24A1DE;
-    width: 7em;
+    font-family: "Noto Sans Display", sans-serif;
+    font-weight: 400;
+    background-color: #208cc2;
+    width: 15em;
     height: 3em;
     transition: 0.5s;
+    margin: 30px;
 }
 
 #loginbtn img {
@@ -158,3 +169,4 @@ button:hover {
 @keyframes l6 {
     100% {inset:0}
 }
+
