@@ -113,8 +113,41 @@ button:hover {
 }
 
 .page2 {
-    display: none;
+    font-family: "Noto Sans Display", sans-serif;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.page2 h1 {
+    font-size: 2.5em;
+    margin-top: 190px;
+    margin-bottom: 0px;
+}
+
+input {
+    font-family: "Noto Sans Display", sans-serif;
+    outline: none;
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    width: 200px;
+}
+
+#passcode-btn {
+    font-family: "Noto Sans Display", sans-serif;
+    width: 8em;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
 #loadtext {
     font-family: "Outfit", sans-serif;
     font-size: 3em;
