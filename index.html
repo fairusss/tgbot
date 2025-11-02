@@ -4,33 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quest Market</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div class="page1">
+  <div class="page1">
     <img class="main-logo" src="./ico.png" alt="">
-  <h1>Quest Market</h1>
-  <p>Натисни, щоб поділитися номером телефону 👇</p>
-  <button id="getPhoneBtn">Поділитись номером</button>
+    <h1>Quest Market</h1>
+    <p>Натисни, щоб поділитися номером телефону :point_down:</p>
+    <button id="sharePhone">Поділитись номером</button>
+  </div>
 
   <script>
     const tg = window.Telegram.WebApp;
-
-    // Ініціалізація WebApp
     tg.expand();
 
-    document.getElementById("getPhoneBtn").addEventListener("click", async () => {
+    document.getElementById("sharePhone").addEventListener("click", async () => {
       try {
-        // Запит номера телефону
-        const result = await tg.requestPhoneNumber();
-        if (result) {
-          alert("Ваш номер телефону: " + result);
-          // Ти можеш тут відправити його на свій backend через fetch()
+        // :fire: Новий офіційний метод — викликає popup Telegram
+        const contact = await tg.requestContact();
+
+        if (contact && contact.phone_number) {
+          tg.sendData(contact.phone_number); // надсилаємо номер назад у бот
+        } else {
+          console.warn("Користувач скасував або не надав номер");
         }
-      } catch (err) {
-        console.error(err);
-        alert("Користувач відмінив або сталася помилка.");
+      } catch (e) {
+        console.error("Помилка при запиті номера:", e);
       }
     });
   </script>
