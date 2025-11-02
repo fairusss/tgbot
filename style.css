@@ -91,8 +91,6 @@ button:hover {
 }
 
 .load-bg{
-    background-image: url("bg.jpg");
-    background-size: auto 100%;
     position: fixed;
     top: 0;
     left: 0;
@@ -101,7 +99,6 @@ button:hover {
     object-fit: cover;
     z-index: -1;
     /* filter: blur(2px); */
-    opacity: 0.7;
     transform: rotate3d(1,1,1,320deg) scale(2);
 }
 
@@ -115,12 +112,10 @@ button:hover {
     width: 45px;
     height: 45px;
 }
-
 .bg-item img {
     width: 34px;
     border-radius: 10px;
 }
-
 .bg-item::after {
     content: "";
 
