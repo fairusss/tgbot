@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
 <svg width="800px" height="800px" viewBox="0 0 100 100" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<style type="text/css">
+<style>
 	.st0{fill:#FFFFFF;}
 	.st1{fill:#F5BB41;}
 	.st2{fill:#2167D1;}
-	.st3{fill:#3D84F3;}
+	.st3{fill:#ffffff;}
 	.st4{fill:#4CA853;}
 	.st5{fill:#398039;}
 	.st6{fill:#D74F3F;}
@@ -83,7 +83,7 @@
 	.st76{fill:url(#SVGID_62_);}
 	.st77{fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;}
 	.st78{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;}
-	.st79{fill:#4BC9FF;}
+	.st79{fill:#ffffff;}
 	.st80{fill:#5500DD;}
 	.st81{fill:#FF3A00;}
 	.st82{fill:#E6162D;}
@@ -120,8 +120,8 @@
 	.st113{fill:#FF4906;}
 	.st114{fill:#503227;}
 	.st115{fill:#4C7BD9;}
-	.st116{fill:#69C9D0;}
-	.st117{fill:#1B92D1;}
+	.st116{fill:#ffffff;}
+	.st117{fill:#ffffff;}
 	.st118{fill:#EB4F4A;}
 	.st119{fill:#513728;}
 	.st120{fill:#FF6600;}

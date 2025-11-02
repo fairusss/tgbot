@@ -85,17 +85,10 @@ button:hover {
 }
 
 #loginbtn {
-    margin-top: 30px;
-    font-family: "Outfit", sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    border-radius: 10px;
-    text-decoration: none;
     background-color: #24A1DE;
-    width: 5em;
+    width: 7em;
     height: 3em;
+    transition: 0.5s;
 }
 
 #loginbtn img {
@@ -128,16 +121,14 @@ button:hover {
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 180px;
-  height: 11px;
+  height: 4px;
   border-radius: 20px;
-  color: #058b00;
-  border: 2px solid;
+  color: #ffffff;
   position: relative;
 }
 .loader::before {
   content: "";
   position: absolute;
-  margin: 2px;
   inset: 0 100% 0 0;
   border-radius: inherit;
   background: currentColor;
