@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://preview.redd.it/v065cssvidh01.jpg?auto=webp&s=4feb78943c46e1b487330230b3d61524af14d804');
+    margin: 0;
+    padding: 20px;
+    background-color: #111;
+    color: white;
+    text-align: center;
+    margin-top: 120px;
+}
+
+button {
+    background: linear-gradient(45deg, #68ba4f, #119129);
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #68ba4f, #14d036);
+}
