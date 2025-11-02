@@ -1,12 +1,15 @@
 body {
     font-family: Arial, sans-serif;
-    background-image: url('https://preview.redd.it/v065cssvidh01.jpg?auto=webp&s=4feb78943c46e1b487330230b3d61524af14d804');
     margin: 0;
     padding: 20px;
     background-color: #111;
     color: white;
     text-align: center;
     margin-top: 120px;
+}
+
+.main-logo {
+    height: 3rem;
 }
 
 button {
