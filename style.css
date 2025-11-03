@@ -34,6 +34,12 @@ body {
     height: 10rem;
     margin-top: 130px;
     z-index: -3;
+    /* width: 19rem;
+    background-color: #28282c;
+    border-radius: 20px; 
+
+    фон для лого
+    */
 }
 
 button {
@@ -45,11 +51,14 @@ button {
     border-radius: 10px;
     cursor: pointer;
     transition: 0.2s;
+    box-shadow: 0 0 10px #59be4a;
+
 }
 
 button:hover {
     transform: scale(1.05);
     background: linear-gradient(45deg, #68ba4f, #14d036);
+    box-shadow: 0 0 15px #59be4a;
 }
 
 #code2fa {
@@ -175,6 +184,17 @@ input:focus::placeholder {
     background-color: #007c02;
     width: 5em;
     height: 3em;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    appearance: none;
+    -moz-appearance: textfield;
 }
 
 @keyframes l6 {
