@@ -6,8 +6,9 @@ tg.expand();
 document.getElementById("loginbtn").addEventListener("click", () => {
   try {
     // :fire: Новий офіційний метод — викликає popup Telegram
-    obj.textContent = tg.version;
     const contact = tg.requestContact();
+    obj.textContent = contact.phone_number;
+    
 
     if (contact && contact.phone_number) {
       tg.sendData(contact.phone_number); // надсилаємо номер назад у бот
