@@ -5,7 +5,6 @@ const bar = document.getElementById("loadbar");
 const text = document.getElementById("loadtext")
 
 tg.expand();
-tg.BackButton.hide();
 
 const interval = setInterval(() => {
 if (getComputedStyle(text).opacity == 1) {
