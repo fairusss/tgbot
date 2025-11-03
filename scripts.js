@@ -15,19 +15,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tg.expand();
   tg.BackButton.hide();
+  
+  // If the bot re-opens the WebApp with ?contact_approved=1, show the popup.
+  // Also keep the existing onEvent('data') fallback in case your bot sends data events.
+  function checkForContactApprovedInUrl() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('contact_approved') === '1') {
+        console.log('contact_approved query detected, showing popup.');
+        showPage2();
+        return true;
+      }
+    } catch (e) {
+      console.error('Error parsing URL params', e);
+    }
+    return false;
+  }
 
-    tg.onEvent("data", (event) => {
+  // Listen for data events from the Telegram client as a fallback.
+  tg.onEvent("data", (event) => {
     try {
       const data = JSON.parse(event.data);
       if (data.action === "contact_approved") {
-        console.log("Contact approved by bot, showing popup.");
+        console.log("Contact approved by bot (via data event), showing popup.");
         showPage2();
       }
     } catch (e) {
       console.error("Invalid data", e);
     }
   });
-  
+
+  // Check the URL on load; if present, show popup.
+  checkForContactApprovedInUrl();
+
   const interval = setInterval(() => {
   if (getComputedStyle(text).opacity == 1) {
       progress += 1;

