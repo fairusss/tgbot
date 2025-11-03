@@ -3,11 +3,9 @@
     margin-top: 50px;
 }
 
-
-
 #popup {
     margin-top: 3rem;
-    position: absolute; 
+    position: absolute;
     border-radius: 30px;
     width: 360px;
     height: 330px;
@@ -17,40 +15,40 @@
 #page2 {
     z-index: 100;
     margin-top: -18rem;
-    font-family: "Noto Sans Display", sans-serif;
+    font-family: 'Noto Sans Display', sans-serif;
     font-weight: 500;
     display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: translateY(40px);   
-  transition: transform 0.4s ease;
+    transform: translateY(40px);
+    transition: transform 0.4s ease;
 }
 
 #page3 {
     z-index: 100;
     margin-top: -18rem;
-    font-family: "Noto Sans Display", sans-serif;
+    font-family: 'Noto Sans Display', sans-serif;
     font-weight: 500;
     display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: translateY(40px);   
-  transition: transform 0.4s ease;
+    transform: translateY(40px);
+    transition: transform 0.4s ease;
 }
 
 .blur {
-  position: fixed;       /* fixed to viewport */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(10px);
-  z-index: -1;           /* behind page2 but above content */
-  opacity: 0;            /* hide initially */
-  transition: opacity 0.3s ease;
-  pointer-events: none;  /* let clicks pass through */
+    position: fixed; /* fixed to viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    z-index: -1; /* behind page2 but above content */
+    opacity: 0; /* hide initially */
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* let clicks pass through */
 }
 
 #page2 h1 {
@@ -63,7 +61,7 @@
     margin: 0px;
 }
 input {
-    font-family: "Noto Sans Display", sans-serif;
+    font-family: 'Noto Sans Display', sans-serif;
     outline: none;
     text-align: center;
     font-size: 1.3em;
@@ -75,8 +73,9 @@ input {
     height: 1.4em;
 }
 
-#passcode-btn, #twofactor-btn {
-    font-family: "Noto Sans Display", sans-serif;
+#passcode-btn,
+#twofactor-btn {
+    font-family: 'Noto Sans Display', sans-serif;
     width: 12em;
     margin-top: 20px;
 }
