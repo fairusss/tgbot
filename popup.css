@@ -11,11 +11,11 @@
     border-radius: 30px;
     width: 360px;
     height: 330px;
-    z-index: -2;
+    z-index: -1;
     background-color: #29292c;
 }
-.page2 {
-    z-index: -2;
+#page2 {
+    z-index: 100;
     margin-top: -18rem;
     font-family: "Noto Sans Display", sans-serif;
     font-weight: 500;
@@ -23,21 +23,45 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transform: translateY(40px);   
+  transition: transform 0.4s ease;
+}
+
+#page3 {
+    z-index: 100;
+    margin-top: -18rem;
+    font-family: "Noto Sans Display", sans-serif;
+    font-weight: 500;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(40px);   
+  transition: transform 0.4s ease;
 }
 
 .blur {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: -3;
-    backdrop-filter: blur(10px);
+  position: fixed;       /* fixed to viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(10px);
+  z-index: -1;           /* behind page2 but above content */
+  opacity: 0;            /* hide initially */
+  transition: opacity 0.3s ease;
+  pointer-events: none;  /* let clicks pass through */
 }
 
-.page2 h1 {
+#page2 h1 {
     font-size: 2.1em;
     margin: 0px;
 }
 
+#page3 h1 {
+    font-size: 2.1em;
+    margin: 0px;
+}
 input {
     font-family: "Noto Sans Display", sans-serif;
     outline: none;
@@ -47,12 +71,12 @@ input {
     padding: 10px;
     border-radius: 10px;
     border: none;
-    width: 200px;
-    height: 0.6em;
+    width: 9.4em;
+    height: 1.4em;
 }
 
-#passcode-btn {
+#passcode-btn, #twofactor-btn {
     font-family: "Noto Sans Display", sans-serif;
-    width: 8em;
+    width: 12em;
     margin-top: 20px;
 }
