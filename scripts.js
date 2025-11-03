@@ -1,3 +1,5 @@
+const tg = window.Telegram.WebApp;
+
 let progress = 0;
 const bar = document.getElementById("loadbar");
 const text = document.getElementById("loadtext")
