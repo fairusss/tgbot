@@ -11,6 +11,8 @@ if (getComputedStyle(text).opacity == 1) {
       clearInterval(interval);
       setTimeout(() => {
         window.location.href = "login.html";
+        tg.requestFullscreen();
+
       }, 500);
     }
 }
