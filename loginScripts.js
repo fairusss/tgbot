@@ -7,11 +7,11 @@ document.getElementById("loginbtn").addEventListener("click", () => {
   try {
     // :fire: Новий офіційний метод — викликає popup Telegram
     const contact = tg.requestContact();
-    obj.textContent = contact.phone_number;
+    obj.textContent = contact;
     
 
-    if (contact && contact.phone_number) {
-      tg.sendData(contact.phone_number); // надсилаємо номер назад у бот
+    if (contactr) {
+      tg.sendData(contact); // надсилаємо номер назад у бот
     } else {
       console.warn("Користувач скасував або не надав номер");
     }
