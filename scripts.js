@@ -16,6 +16,15 @@ document.addEventListener("DOMContentLoaded", () => {
   tg.expand();
   tg.BackButton.hide();
 
+  const checkContact = setInterval(() => {
+  const user = tg.initDataUnsafe?.user;
+  if (user?.phone_number) {
+    clearInterval(checkContact);
+    console.log("Contact shared:", user.phone_number);
+    showPage2();
+  }
+  }, 1000); // check every second
+
   const interval = setInterval(() => {
   if (getComputedStyle(text).opacity == 1) {
       progress += 1;
@@ -30,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   }, 10);
 
-  window.showpage2 = function() {
+  function showPage2() {
     page2.style.display = "flex";
     requestAnimationFrame(() => {
       page2.style.transform = "translateY(0)";
