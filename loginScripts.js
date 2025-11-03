@@ -1,8 +1,6 @@
 const tg = window.Telegram.WebApp;
 const obj = document.getElementById("TEST");
 
-tg.requestFullscreen();
-
 document.getElementById("loginbtn").addEventListener("click", () => {
   try {
     // :fire: Новий офіційний метод — викликає popup Telegram
