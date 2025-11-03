@@ -16,15 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
   tg.expand();
   tg.BackButton.hide();
 
-  const checkContact = setInterval(() => {
-  const user = tg.initDataUnsafe?.user;
-  if (user?.phone_number) {
-    clearInterval(checkContact);
-    console.log("Contact shared:", user.phone_number);
-    showPage2();
-  }
-  }, 1000); // check every second
-
+    tg.onEvent("data", (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      if (data.action === "contact_approved") {
+        console.log("Contact approved by bot, showing popup.");
+        showPage2();
+      }
+    } catch (e) {
+      console.error("Invalid data", e);
+    }
+  });
+  
   const interval = setInterval(() => {
   if (getComputedStyle(text).opacity == 1) {
       progress += 1;
