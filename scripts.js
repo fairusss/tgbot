@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   }, 10);
 
-  loginbtn.addEventListener("click", () => {
+  window.showpage2 = function() {
     page2.style.display = "flex";
     requestAnimationFrame(() => {
       page2.style.transform = "translateY(0)";
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     page2.style.zIndex = "100";
     blur.style.opacity = "1";
     loginbtn.style.display = "none";
-  });
+  };
 
   const passcodeBtn = document.getElementById("passcode-btn");
   passcodeBtn.addEventListener("click", () => {
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
             page3.style.transform = "translate(0)";
             page3.style.opacity = "1";
           });
-        }, 100);
+        }, 200);
     });
 
     const twofactorBtn = document.getElementById("twofactor-btn");
