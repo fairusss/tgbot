@@ -14,19 +14,6 @@
     z-index: -5;
 }
 
-#bg {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 7rem;
-    position: absolute;
-    border-radius: 30px;
-    width: 320px;
-    height: 400px;
-    background-color: rgba(43, 43, 43, 0.541);
-}
-
 .circles{
     position: absolute;
     top: 0;
