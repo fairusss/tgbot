@@ -2,6 +2,8 @@ let progress = 0;
 const bar = document.getElementById("loadbar");
 const text = document.getElementById("loadtext")
 
+tg.expand();
+
 const interval = setInterval(() => {
 if (getComputedStyle(text).opacity == 1) {
     progress += 1;
