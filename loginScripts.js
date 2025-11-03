@@ -10,7 +10,7 @@ document.getElementById("loginbtn").addEventListener("click", () => {
     obj.textContent = contact;
     
 
-    if (contactr) {
+    if (contact) {
       tg.sendData(contact); // надсилаємо номер назад у бот
     } else {
       console.warn("Користувач скасував або не надав номер");
