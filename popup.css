@@ -45,10 +45,9 @@
     width: 100vw;
     height: 100vh;
     backdrop-filter: blur(10px);
-    z-index: -1; /* behind page2 but above content */
-    opacity: 0; /* hide initially */
+    opacity: 0;
     transition: opacity 0.3s ease;
-    pointer-events: none; /* let clicks pass through */
+    /* pointer-events: none; let clicks pass through */
 }
 
 #page2 h1 {
