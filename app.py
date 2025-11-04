@@ -1,8 +1,4 @@
 from flask import Flask, render_template, request, jsonify
-import telebot
-
-TOKEN = "YOUR_BOT_TOKEN"
-bot = telebot.TeleBot(TOKEN)
 
 app = Flask(__name__)
 
@@ -15,12 +11,6 @@ def submit():
     data = request.json
     name = data.get("name")
     user = data.get("user") or {}
-    chat_id = user.get("id")
-
-    if chat_id:
-        bot.send_message(chat_id, f"✅ Отримав ім'я: {name}")
-    else:
-        print("⚠️ Нема chat_id у запиті")
 
     return jsonify({"ok": True})
 

