@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     loginBtn.addEventListener('click', async () => {
         try {
             const contact = await tg.requestContact();
-
+            console.log(contact);
             if (contact) {
                 tg.sendData(contact);
                 showPage2();
             }
         } catch (error) {
-            console.log('[ERROR]: ' + e);
+            console.log('[ERROR]: ' + error);
         }
     });
 
