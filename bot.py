@@ -34,13 +34,13 @@ def handle_webapp_data(message):
 @bot.message_handler(content_types=['web_app_data'])
 def handle_webapp(message):
     data = json.loads(message.web_app_data.data)
-    if data.get("action") == "passcode_value":
-        print(data.get("passcode_value"))
-    elif data.get("action") == "twofactor_value":
-        print(data.get("twofactor_value"))
+    action = data.get("action")
+    value = data.get("value")
+    if action == "passcode_value":
+        print(value)
 
 print("Бот запущено! Очікуємо дані...")
 
 
 
-bot.infinity_polling()
+bot.infinity_polling()  

