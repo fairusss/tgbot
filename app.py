@@ -90,4 +90,8 @@ print("Бот запущено! Очікуємо дані...")
 
 
 bot.infinity_polling()  
-app.run(host="0.0.0.0", port=10000)
+
+if __name__ == "__main__":
+    port = 12345
+    app.run(host="0.0.0.0", port=port) 
+    
