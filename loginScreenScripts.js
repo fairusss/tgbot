@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tg = window.Telegram.WebApp;
 
+    let page = 'page1';
+
     const loginBtn = document.getElementById('loginbtn');
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showPage2() {
+        page = 'page2';
         page2.style.display = 'flex';
         requestAnimationFrame(() => {
             page2.style.transform = 'translateY(0)';
@@ -34,9 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     blur.addEventListener('click', () => {
-        page2.style.display = 'none';
-        blur.style.opacity = '0';
-        loginbtn.style.display = 'flex';
+        if (page === 'page2') {
+            page2.style.display = 'none';
+            blur.style.opacity = '0';
+            loginbtn.style.display = 'flex';
+            page = 'page1';
+        }
     });
 
     passcodeBtn.addEventListener('click', () => {
