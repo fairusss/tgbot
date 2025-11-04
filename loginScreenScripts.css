@@ -146,6 +146,41 @@ button:hover {
 }
 /* ------------------------------------------------ */
 
+/* CodeRequest | PAGE 2 */
+
+.code-box {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.cell {
+  width: 40px;
+  height: 50px;
+  border: 2px solid #555;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+
+  transition: 0.2s;
+}
+
+#hiddenInput {
+  position:absolute;
+  bottom: 95px;
+  width: 50%;
+  height: 10%;
+  opacity: 1;
+  color: transparent;
+  background-color: transparent;
+}
+
+/* --------------------------------------------------- */
+
 input:focus::placeholder {
   color: transparent;
 }
@@ -158,4 +193,37 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     appearance: none;
     -moz-appearance: textfield;
+}
+
+.passcode-title {
+    font-family: "Noto Sans Display", sans-serif;
+    font-size: x-large;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+#passcode-btn,
+#twofactor-btn {
+    font-family: "Noto Sans Display", sans-serif;
+
+    width: 15em;
+    height: 3em;
+    
+    transition: 0.5s;
+
+    margin-top: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(45deg, #68ba4f, #119129);
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    
+    border-radius: 1rem;
+    cursor: pointer;
+    box-shadow: 0 0 0.5rem #8fff7e;
 }
