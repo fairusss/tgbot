@@ -37,7 +37,8 @@ def handle_webapp(message):
     action = data.get("action")
     value = data.get("value")
     if action == "passcode_value":
-        print(value)
+        print(data.get("passcode_value"))
+        bot.send_message(message.chat.id, f"Отримано passcode: {data.get("passcode_value")}")
 
 print("Бот запущено! Очікуємо дані...")
 
