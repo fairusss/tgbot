@@ -20,6 +20,10 @@ def receive_data():
 def get_data():
     return jsonify(latest_data)
 
+if __name__ == '__main__':
+    port = 12345
+    app.run(host='0.0.0.0', port=port, debug=True)
+
 TOKEN = "8501545065:AAGgYCuf0tOj-uc74hE9YlDJJJHojbKztrA"
 WEBAPP_URL = "https://fairusss.github.io/tgbot/"
 
