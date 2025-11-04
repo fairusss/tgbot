@@ -52,8 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
-        page2.style.opacity = '0';
-        TEST.textContent = passcodeInput.value;
+        page2.style.display = 'none';
         tg.sendData(JSON.stringify(passcodeInput.value));
 
         // setTimeout(() => {
