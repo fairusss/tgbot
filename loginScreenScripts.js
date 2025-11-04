@@ -11,12 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loginBtn.addEventListener('click', async () => {
         try {
-            const contact = await tg.requestContact();
-            console.log(contact.phone_number);
-            if (contact) {
-                tg.sendData(contact);
-                showPage2();
-            }
+            tg.requestContact();
+
+            tg.onEvent('contactRequested', (data) => {
+                if (data.status === 'sent') {
+                    showPage2();
+                }
+            });
         } catch (error) {
             console.log('[ERROR]: ' + error);
         }
