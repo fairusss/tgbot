@@ -11,11 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loginBtn.addEventListener('click', async () => {
         try {
-            const contact = tg.requestContact();
+            tg.requestContact();
 
             tg.onEvent('contactRequested', (data) => {
                 if (data.status === 'sent') {
-                    tg.sendData(contact);
                     showPage2();
                 }
             });
