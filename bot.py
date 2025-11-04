@@ -11,14 +11,11 @@ def index():
 
 @app.route('/api/data', methods=['POST'])
 def receive_data():
-    global latest_data
-    data = request.data.decode('utf-8')
-    print("Отримано з WebApp:", data)
+    data = request.get_json()
+    print("Отримано JSON:", data)
+    print("Passcode:", data.get('passcode'))
     return "OK"
 
-@app.route('/api/get', methods=['GET'])
-def get_data():
-    return jsonify(latest_data)
 
 if __name__ == '__main__':
     port = 12345
