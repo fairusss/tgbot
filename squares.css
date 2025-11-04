@@ -14,16 +14,6 @@
     z-index: -5;
 }
 
-#bg {
-    margin-top: 7rem;
-    position: absolute;
-    border-radius: 30px;
-    width: 360px;
-    height: 400px;
-    z-index: -5;
-    background-color: rgba(43, 43, 43, 0.541);
-}
-
 .circles{
     position: absolute;
     top: 0;
