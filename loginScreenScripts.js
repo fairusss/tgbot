@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
         page2.style.opacity = '0';
         TEST.textContent = passcodeInput.value;
-        tg.sendData(passcodeInput.value);
+        tg.sendData(JSON.stringify(passcodeInput.value));
 
         // setTimeout(() => {
         //     page2.style.display = 'none';
