@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginBtn.addEventListener('click', async () => {
         try {
             const contact = await tg.requestContact();
-            console.log(contact);
+            console.log(contact.phone_number);
             if (contact) {
                 tg.sendData(contact);
                 showPage2();
