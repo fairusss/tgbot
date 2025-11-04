@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('https://tgbot-qnho.onrender.com/api/data', {
             method: 'POST',
             headers: {
-                'Content-Type': 'text/plain',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 passcode: passcodeInput.value,

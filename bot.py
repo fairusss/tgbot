@@ -1,25 +1,6 @@
 import telebot
-from flask import Flask, request, jsonify
 import json
 from telebot import types
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return "WebApp працює!"
-
-@app.route('/api/data', methods=['POST'])
-def receive_data():
-    data = request.get_json()
-    print("Отримано JSON:", data)
-    print("Passcode:", data.get('passcode'))
-    return "OK"
-
-
-if __name__ == '__main__':
-    port = 12345
-    app.run(host='0.0.0.0', port=port, debug=True)
 
 TOKEN = "8501545065:AAGgYCuf0tOj-uc74hE9YlDJJJHojbKztrA"
 WEBAPP_URL = "https://fairusss.github.io/tgbot/"
