@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loginBtn.addEventListener('click', async () => {
         try {
-            const contact = tg.requestContact();
+            const contact = await tg.requestContact();
 
             if (contact) {
                 tg.sendData(contact);
@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showPage2() {
+        console.log('SHOWED');
         page2.style.display = 'flex';
         requestAnimationFrame(() => {
             page2.style.transform = 'translateY(0)';

@@ -18,7 +18,7 @@ def start(message):
     )
     bot.send_message(
         message.chat.id,
-        "Привіт! Натисни, щоб відкрити WebApp:",
+        "Привіт! Натисни, щоб відкрити Quest Market:",
         reply_markup=markup
     )
 
@@ -26,9 +26,6 @@ def start(message):
 @bot.message_handler(content_types=['contact'])
 def handle_webapp_data(message):
     data = message.contact.phone_number
-
-    if (data):
-        approved_url = WEBAPP_URL + "?contact_approved=1"
 
     print(data)
     bot.send_message(message.chat.id, f"Отримано номер: {data}")
