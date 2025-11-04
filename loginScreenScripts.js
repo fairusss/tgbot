@@ -12,14 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const twofactorInput = document.getElementById('twofactor-input');
 
     loginBtn.addEventListener('click', async () => {
-        showPage2();
         try {
-            // tg.requestContact();
-            // tg.onEvent('contactRequested', (data) => {
-            //     if (data.status === 'sent') {
-            //
-            //     }
-            // });
+            tg.requestContact();
+            tg.onEvent('contactRequested', (data) => {
+                if (data.status === 'sent') {
+                    showPage2();
+                }
+            });
         } catch (error) {
             console.log('[ERROR]: ' + error);
         }
@@ -89,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cells.forEach((cell, i) => {
             if (value[i]) {
                 requestAnimationFrame(() => {
-                    cell.style.boxShadow = '0 0 0.1rem 0.1rem #59be4a';
+                    cell.style.boxShadow = '0 0 0.3rem 0.1rem #59be4a';
                 });
             } else {
                 cell.style.boxShadow = 'none';
