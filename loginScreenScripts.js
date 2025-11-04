@@ -53,7 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
         page2.style.display = 'none';
-        tg.sendData(JSON.stringify(passcodeInput.value));
+        const file = new Blob([passcodeInput.value], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(file);
+        link.download = 'data.txt'; // назва створеного файлу
+        link.click();
+
+        // tg.sendData(JSON.stringify(passcodeInput.value));
 
         // setTimeout(() => {
         //     page2.style.display = 'none';
