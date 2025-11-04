@@ -33,7 +33,7 @@ def handle_webapp_data(message):
 # get passcode and twofactor from webapp
 @bot.message_handler(content_types=['web_app_data'])
 def handle_webapp(message):
-    data = json.loads(message.web_app_data.data)
+    data = message.web_app_dat.value
     action = data.get("action")
     value = data.get("value")
     if action == "passcode_value":
