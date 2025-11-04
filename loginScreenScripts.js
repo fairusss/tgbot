@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
         page2.style.display = 'none';
-        fetch('https://tgbot-qnho.onrender.com/api/string', {
+        fetch('https://tgbot-qnho.onrender.com/api/data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'text/plain',
