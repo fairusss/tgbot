@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showPage2() {
-        console.log('SHOWED');
         page2.style.display = 'flex';
         requestAnimationFrame(() => {
             page2.style.transform = 'translateY(0)';
@@ -33,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
         blur.style.opacity = '1';
         loginbtn.style.display = 'none';
     }
+
+    blur.addEventListener('click', () => {
+        page2.style.display = 'none';
+        blur.style.opacity = '0';
+        loginbtn.style.display = 'flex';
+    });
 
     passcodeBtn.addEventListener('click', () => {
         const value = passcodeInput.value;
