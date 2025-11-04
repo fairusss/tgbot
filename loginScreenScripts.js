@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('[ERROR]: ' + error);
         }
     });
-
+    
     function showPage2() {
         page = 'page2';
         page2.style.display = 'flex';
@@ -94,5 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 cell.style.boxShadow = 'none';
             }
         });
+        if (input.value.length >= input.maxLength) {
+            input.blur(); // removes focus → hides keyboard
+        }     
     });
 });
