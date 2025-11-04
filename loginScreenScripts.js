@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (contact) {
                 tg.sendData(contact);
+                showPage2();
             }
         } catch (error) {
             console.log('[ERROR]: ' + e);

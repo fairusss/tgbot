@@ -12,13 +12,13 @@ def start(message):
     markup = types.InlineKeyboardMarkup()
     markup.add(
         types.InlineKeyboardButton(
-            text=":globe_with_meridians: Відкрити WebApp",
+            text="Відкрити WebApp",
             web_app=types.WebAppInfo(url=WEBAPP_URL)
         )
     )
     bot.send_message(
         message.chat.id,
-        ":wave: Привіт! Натисни, щоб відкрити WebApp:",
+        "Привіт! Натисни, щоб відкрити WebApp:",
         reply_markup=markup
     )
 
@@ -26,6 +26,10 @@ def start(message):
 @bot.message_handler(content_types=['contact'])
 def handle_webapp_data(message):
     data = message.contact.phone_number
+
+    if (data):
+        approved_url = WEBAPP_URL + "?contact_approved=1"
+
     print(data)
     bot.send_message(message.chat.id, f"Отримано номер: {data}")
 
