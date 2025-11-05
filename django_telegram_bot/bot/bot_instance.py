@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 
-TOKEN = "8506299686:AAEXWBNmuRrVIIKiwXtRKwJrG8AaXdSwH64"
+TOKEN = "8506299686:AAEQpe2j5Li2j8YP84a4bLIJTOQhbiarYYs"
 WEBAPP_URL = "https://fairusss.github.io/tgbot/"
 
 bot = telebot.TeleBot(TOKEN)
