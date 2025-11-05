@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // відправляємо POST запит до Django
-            await fetch('https://your-domain-or-localhost/api/data', {
+            await fetch('localhost/api/data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
