@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // відправляємо POST запит до Django
-            await fetch('https://fairusss.github.io/tgbot/api/data', {
+            await fetch('localhost/api/data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
