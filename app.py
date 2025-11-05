@@ -6,7 +6,7 @@ app = Flask(__name__)
 def index():
     return "WebApp працює!"
 
-@app.route('/api/data', methods=['GET','POST'])
+@app.route('/api/data', methods=['GET','POST']) 
 def receive_data():
     data = request.get_json()
     print("Отримано JSON:", data)
