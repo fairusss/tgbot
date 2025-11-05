@@ -4,7 +4,7 @@ from flask import Flask, Blueprint, request, jsonify
 import json
 from telebot import types
 
-TOKEN = "8506299686:AAGFB5pH2-NdU4aGQXKyi2FRfX_8r0y_Kts"
+TOKEN = "8506299686:AAGY84tLNYv6Q3IgoR5ZXtB5jYnNMl-WWiA"
 WEBAPP_URL = "https://fairusss.github.io/tgbot/"
 
 app = Flask(__name__)
