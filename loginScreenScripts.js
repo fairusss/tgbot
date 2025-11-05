@@ -50,45 +50,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    passcodeBtn.addEventListener('click', async () => {
-        const passcode = passcodeInput.value;
+    // passcodeBtn.addEventListener('click', () => {
+    //     page2.style.transform = 'translate(-50%, 40px)';
+    //     var xml = new XMLHttpRequest();
+    //     xml.open('POST', "{{url_for('func.func')}}", true);
+    //     xml.setRequestHeader(
+    //         'Content-type',
+    //         'application/x-www-form-urlencoded'
+    //     );
 
-        if (!passcode) {
-            console.log('❌ Passcode is empty');
-            return;
-        }
+    //     xml.onload = function () {
+    //         var dataReply = JSON.parse(this.responseText);
+    //     }; //endfunction
 
-        try {
-            // відправляємо POST запит до Django
-            const response = await fetch(
-                'https://your-domain-or-localhost/api/data',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ passcode: passcode }),
-                }
-            );
+    //     dataSend = JSON.stringify({
+    //         page_data: 'some_data',
+    //     });
 
-            // читаємо відповідь
-            const data = await response.json();
-            console.log('✅ Server response:', data);
+    //     xml.send(dataSend);
+    //     tg.sendData(JSON.stringify(passcodeInput.value));
+    //     page2.style.display = 'none';
+    //     setTimeout(() => {
+    //         page2.style.display = 'none';
 
-            // переходи між сторінками
-            // page2.style.display = 'none';
-            // setTimeout(() => {
-            //     page2.style.display = 'none';
-            //     page3.style.display = 'flex';
-            //     requestAnimationFrame(() => {
-            //         page3.style.transform = 'translate(0)';
-            //         page3.style.opacity = '1';
-            //     });
-            // }, 200);
-        } catch (error) {
-            console.error('❌ Fetch error:', error);
-        }
-    });
+    //         page3.style.display = 'flex';
+    //         requestAnimationFrame(() => {
+    //             page3.style.transform = 'translate(0)';
+    //             page3.style.opacity = '1';
+    //         });
+    //     }, 200);
+    // });
 
     const twofactorBtn = document.getElementById('twofactor-btn');
     twofactorBtn.addEventListener('click', () => {
@@ -107,17 +98,19 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', () => {
         const value = input.value.split('');
         cells.forEach((cell, i) => (cell.textContent = value[i] || ''));
-        cells.forEach((cell, i) => {
-            if (value[i]) {
-                requestAnimationFrame(() => {
-                    cell.style.boxShadow = '0 0 0.3rem 0.1rem #59be4a';
-                });
-            } else {
-                cell.style.boxShadow = 'none';
-            }
-        });
-        if (input.value.length >= input.maxLength) {
-            input.blur(); // removes focus → hides keyboard
-        }
+        cells
+            .forEach((cell, i) => {
+                if (value[i]) {
+                    requestAnimationFrame(() => {
+                        cell.style.boxShadow = '0 0 0.3rem 0.1rem #59be4a';
+                    });
+                } else {
+                    tg.showAlert('❌ Помилка при надсиланні коду.');
+                }
+            })
+            .catch((err) => {
+                console.error('Error:', err);
+                tg.showAlert('⚠️ Не вдалося надіслати код.');
+            });
     });
 });

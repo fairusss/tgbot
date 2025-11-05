@@ -1,229 +1,54 @@
-html, body {margin: 0; height: 100%; overflow: hidden}
-@keyframes glow {
-    0% {
-        
-    -webkit-box-shadow: 0px 0px 119px 0px rgba(12, 143, 0, 0.12);
-    -moz-box-shadow: 0px 0px 119px 0px rgba(12, 143, 0, 0.12);
-    box-shadow: 0px 0px 119px 0px rgba(12, 143, 0, 0.12);
-    }
-    50% {
-        
-    -webkit-box-shadow: 0px 0px 119px 12px rgba(12, 143, 0, 0.12);
-    -moz-box-shadow: 0px 0px 119px 12px rgba(12, 143, 0, 0.12);
-    box-shadow: 0px 0px 119px 12px rgba(12, 143, 0, 0.12);
-    }
-    100% {
-        
-    -webkit-box-shadow: 0px 0px 119px 24px rgba(12, 143, 0, 0.12);
-    -moz-box-shadow: 0px 0px 119px 24px rgba(12, 143, 0, 0.12);
-    box-shadow: 0px 0px 119px 24px rgba(12, 143, 0, 0.12);
-    }
+body {
+  font-family: system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f3f3f3;
+  margin: 0;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #111;
-    color: white;
-    text-align: center;
+.box {
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #0088cc;
+}
+
+button {
+  background: #0088cc;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 15px;
 }
 
 button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(45deg, #68ba4f, #14d036);
-    box-shadow: 0 0 15px #59be4a;
-}
-
-#code2fa {
-    background: linear-gradient(45deg, #082400, #01410c);
-    border-radius: 16px;
-    border: 3px solid #249c00;
-    width: 7em;
-    height: 2em;
-    font-size: 20px;
-    font-family: "Outfit", sans-serif;
-    text-align: center;
-    color: #dddddd;
-    transition: 0.5s;
-}
-
-#code2fa:focus {
-    transition: 0.5s;
-    outline: none;
-    border: 3px solid #007c02;
-    animation: glow 1.5s infinite;
-}
-
-#req2fa {
-    font-family: "Outfit", sans-serif;
-    font-size: 2em;
-    margin-top: 50px;
-}
-
-/* PHONE REQUEST | PAGE 1*/
-
-#page1 {
-    width: auto;
-    height: 30rem;
-
-    font-family: "Noto Sans Display", sans-serif;
-    font-weight: 500;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: -2;
-}
-
-#page1 h1 {
-    font-size: 2rem;
-    margin-top: 1rem;
-}
-
-#page1 p {
-    margin: 0;
-    font-size: 0.9rem;
-    text-wrap:balance ;
-    color: #ccc;
-}
-
-#page1 span {
-    background-color: #0088cc;
-    padding: 0.2rem;
-    width: 5rem;
-    margin-top: 0.3rem;
-    border-radius: 0.3rem;
-}
-
-#page1 span p {
-    color: white;
-}
-
-#bg {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 7rem;
-    position: absolute;
-    border-radius: 30px;
-    width: 320px;
-    height: 400px;
-    background-color: rgba(43, 43, 43, 0.5);
-}
-
-.main-logo {
-    height: 7rem;
-}
-
-#loginbtn {
-    font-family: "Noto Sans Display", sans-serif;
-
-    width: 15em;
-    height: 3em;
-    
-    transition: 0.5s;
-
-    margin-top: 2rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: linear-gradient(45deg, #68ba4f, #119129);
-    border: none;
-    color: white;
-    font-size: 18px;
-    
-    border-radius: 1rem;
-    cursor: pointer;
-    box-shadow: 0 0 0.5rem #59be4a;
-}
-
-#loginbtn img {
-    width: 20px;
-    margin-right: 10px;
-}
-/* ------------------------------------------------ */
-
-/* CodeRequest | PAGE 2 */
-
-.code-box {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.cell {
-  width: 40px;
-  height: 50px;
-  border: 2px solid #555;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-
-  transition: 0.2s;
-}
-
-#hiddenInput {
-  position:absolute;
-  bottom: 95px;
-  width: 50%;
-  height: 10%;
-  opacity: 1;
-  color: transparent;
-  background-color: transparent;
-}
-
-/* --------------------------------------------------- */
-
-input:focus::placeholder {
-  color: transparent;
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-input[type="number"] {
-    appearance: none;
-    -moz-appearance: textfield;
-}
-
-.passcode-title {
-    font-family: "Noto Sans Display", sans-serif;
-    font-size: x-large;
-    font-weight: bold;
-    margin-top: 1rem;
-}
-
-#passcode-btn,
-#twofactor-btn {
-    font-family: "Noto Sans Display", sans-serif;
-
-    width: 15em;
-    height: 3em;
-    
-    transition: 0.5s;
-
-    margin-top: 2rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: linear-gradient(45deg, #68ba4f, #119129);
-    border: none;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    
-    border-radius: 1rem;
-    cursor: pointer;
-    box-shadow: 0 0 0.5rem #8fff7e;
+  background: #007ab8;
 }
