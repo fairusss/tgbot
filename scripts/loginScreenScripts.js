@@ -106,8 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     requestAnimationFrame(() => {
                         cell.style.boxShadow = '0 0 0.3rem 0.1rem #59be4a';
                     });
-                } else {
-                    tg.showAlert('❌ Помилка при надсиланні коду.');
                 }
             })
             .catch((err) => {
