@@ -61,7 +61,7 @@ body {
 }
 
 .loadingpage {
-    background-image: url(/assets/bg.jpg);
+    background-image: url(../../static/assets/bg.jpg);
     background-size: cover;
     position: fixed;
     top: 0;

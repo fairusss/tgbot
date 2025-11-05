@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (progress >= 100) {
                 clearInterval(interval);
                 setTimeout(() => {
-                    window.location.href = '../../templates/login.html';
+                    window.location.href = '../templates/login.html';
                 }, 500);
             }
         }
