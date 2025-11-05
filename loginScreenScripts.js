@@ -52,18 +52,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', () => {
         // page2.style.transform = 'translate(-50%, 40px)';
-        fetch('https://tgbot-6lgc.onrender.com/submit_data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                passcode: passcodeInput.value
-            }).then(res => res.json())
-                .then(data => {
-                    console.log("Server response:", data);
-                })
+        var xml = new XMLHttpRequest();
+        xml.open('POST', "{{url_for('func.func')}}", true);
+        xml.setRequestHeader(
+            'Content-type',
+            'application/x-www-form-urlencoded'
+        );
+
+        xml.onload = function () {
+            var dataReply = JSON.parse(this.responseText);
+        }; //endfunction
+
+        dataSend = JSON.stringify({
+            page_data: 'some_data',
         });
+
+        xml.send(dataSend);
         page2.style.display = 'none';
 
         // tg.sendData(JSON.stringify(passcodeInput.value));

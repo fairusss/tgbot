@@ -1,5 +1,6 @@
+import os
 import telebot
-from flask import Flask, request, jsonify
+from flask import Flask, Blueprint, request, jsonify
 import json
 from telebot import types
 
@@ -7,6 +8,20 @@ TOKEN = "8501545065:AAGgYCuf0tOj-uc74hE9YlDJJJHojbKztrA"
 WEBAPP_URL = "https://fairusss.github.io/tgbot/"
 
 app = Flask(__name__)
+
+path_cwd = os.path.dirname(os.path.realpath(__file__))
+path_templates = os.path.join(path_cwd,"templates")
+path_static = os.path.join(path_cwd,"static")
+
+Func = Blueprint('func', __name__, static_folder=path_static, template_folder=path_templates)
+@Func.route('/func', methods=['GET','POST'])
+def func():
+
+    dataGet = '' if not request.get_json(force=True) else request.get_json(force=True)
+    print(dataGet)
+    dataReply = {'backend_data':'some_data'}
+    print(dataReply)
+    return jsonify(dataReply)
 
 @app.route('/')
 def index():
@@ -72,7 +87,7 @@ def submit_data():
 
         # Optionally send confirmation message to Telegram chat
         if user_id:
-            BOT.send_message(user_id, f"✅ Got {action}: {value}")
+            bot.send_message(user_id, f"✅ Got {action}: {value}")
 
         return jsonify(success=True, message="Data received"), 200
     except Exception as e:
