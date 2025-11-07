@@ -43,6 +43,9 @@ def webhook():
 def webapp():
     return render_template("index.html")
 
+@app.route('/login')
+def login_screen():
+    return render_template('login.html')
 
 # === Receive data from WebApp ===
 @app.route("/send_data", methods=["POST"])
