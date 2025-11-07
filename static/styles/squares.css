@@ -118,21 +118,21 @@
 @keyframes animate {
 
     0%{
-        -webkit-transform: translateY(0) rotate(0deg);
-        -moz-transform: translateY(0) rotate(0deg);
-        -ms-transform: translateY(0) rotate(0deg);
-        -o-transform: translateY(0) rotate(0deg);
-        transform: translateY(0) rotate(0deg);
+        -webkit-transform: translate3d(0, 0, 0) rotate(0deg);
+        -moz-transform: translate3d(0, 0, 0) rotate(0deg);
+        -ms-transform: translate3d(0, 0, 0) rotate(0deg);
+        -o-transform: translate3d(0, 0, 0) rotate(0deg);
+        transform: translate3d(0, 0, 0) rotate(0deg);
         opacity: 1;
         border-radius: 0;
     }
 
     100%{
-        -webkit-transform: translateY(-1000px) rotate(720deg);
-        -moz-transform: translateY(-1000px) rotate(720deg);
-        -ms-transform: translateY(-1000px) rotate(720deg);
-        -o-transform: translateY(-1000px) rotate(720deg);
-        transform: translateY(-1000px) rotate(720deg);
+        -webkit-transform: translate3d(0, -1000px, 0) rotate(720deg);
+        -moz-transform: translate3d(0, -1000px, 0) rotate(720deg);
+        -ms-transform: translate3d(0, -1000px, 0) rotate(720deg);
+        -o-transform: translate3d(0, -1000px, 0) rotate(720deg);
+        transform: translate3d(0, -1000px, 0) rotate(720deg);
         opacity: 0;
         border-radius: 50%;
     }

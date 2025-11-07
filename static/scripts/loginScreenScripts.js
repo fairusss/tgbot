@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       showEl.style.zIndex = '9999';
       showEl.style.display = 'flex';
       // Set initial transform to maintain centering
-      showEl.style.transform = 'translate(-50%, -50%) translateY(40px) translateZ(0)';
+      showEl.style.transform = 'translate3d(-50%, calc(-50% + 40px), 0)';
       showEl.style.opacity = '0';
     }
     
@@ -83,15 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // If showEl is not page2/page3, handle normally
     if (showEl !== page2 && showEl !== page3) {
       showEl.style.display = 'flex';
-      showEl.style.transform = 'translateY(40px)';
+      showEl.style.transform = 'translate3d(0, 40px, 0)';
       showEl.style.opacity = '0';
     }
 
     requestAnimationFrame(() => {
       if (showEl === page2 || showEl === page3) {
-        showEl.style.transform = 'translate(-50%, -50%) translateY(0) translateZ(0)';
+        showEl.style.transform = 'translate3d(-50%, -50%, 0)';
       } else {
-        showEl.style.transform = 'translateY(0)';
+        showEl.style.transform = 'translate3d(0, 0, 0)';
       }
       showEl.style.opacity = '1';
     });
