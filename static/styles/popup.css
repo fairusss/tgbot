@@ -79,6 +79,9 @@ input {
 }
 
 #page3 input {
+  font-family: "Noto Sans Display", sans-serif;
+  padding: 0px;
+  letter-spacing: 0px;
   width: 16.5rem;
   height: 50px;
   margin-top: 0.9em;
