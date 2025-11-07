@@ -32,7 +32,6 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 5em;
   height: 30rem;
   z-index: -2;
 }

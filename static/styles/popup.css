@@ -1,27 +1,8 @@
 .small-logo {
   height: 5rem;
-  margin-top: 30px;
   margin-bottom: 15px;
 }
 
-
-/* Popup container stays perfectly centered */
-#popup {
-  position: fixed;                /* fixed, not absolute */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) translateZ(0);
-  width: 320px;
-  height: 400px;
-  border-radius: 30px;
-  background-color: #29292c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  z-index: 10;
-  will-change: transform, opacity;
-}
 
 /* Shared style for page sections */
 #page2, #page3 {
@@ -30,7 +11,7 @@
   left: 50% !important;
   transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
   width: 320px;
-  height: 400px;
+  height: 390px;
   border-radius: 30px;
   background-color: #29292c;
   display: none;
@@ -42,10 +23,11 @@
   opacity: 0;
   transition: opacity 0.35s ease, transform 0.35s ease;
   will-change: transform, opacity;
-  z-index: 9999 !important;
-  overflow: hidden;
+  z-index: 1000 !important;
+  overflow: visible;
   margin: 0 !important;
   padding: 0;
+  color: #fff;
 }
 
 /* Active (visible) page */
@@ -65,7 +47,7 @@
   background: rgba(25, 25, 25, 0.4);
   backdrop-filter: blur(6px);
   opacity: 1;
-  z-index: 9998;
+  z-index: -1;
   transition: opacity 0.3s ease;
   will-change: opacity;
   transform: translateZ(0);
@@ -84,7 +66,7 @@ input {
   width: 9.4em;
   height: 1.2rem;
   letter-spacing: 1rem;
-  color: white;
+  opacity: 0;
 }
 
 #page3 input {
