@@ -38,6 +38,10 @@ div.content-container {
   position: fixed !important;
   top: 70% !important;
   left: 50% !important;
+  -webkit-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
+  -moz-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
+  -ms-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
+  -o-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
   transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
   width: 320px;
   height: 390px;
@@ -63,6 +67,10 @@ div.content-container {
 #page1.active, #page2.active, #page3.active {
   display: flex;
   opacity: 1;
+  -webkit-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
+  -moz-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
+  -ms-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
+  -o-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
   transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
 }
 
@@ -79,6 +87,10 @@ div.content-container {
   z-index: -1;
   transition: opacity 0.3s ease;
   will-change: opacity;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
   transform: translateZ(0);
 }
 
@@ -124,6 +136,10 @@ input {
 
 /* GPU optimize text inputs */
 input, button {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
   transform: translateZ(0);
   will-change: transform, opacity;
   -webkit-tap-highlight-color: transparent;
@@ -140,12 +156,20 @@ input, button {
     padding: 1rem 0;
     top: 50% !important;
     left: 50% !important;
+    -webkit-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
+    -moz-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
+    -ms-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
+    -o-transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
     transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
     position: fixed !important;
     z-index: 9999 !important;
   }
 
   #page2.active, #page3.active {
+    -webkit-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
+    -moz-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
+    -ms-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
+    -o-transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
     transform: translate(-50%, -50%) translateY(0) translateZ(0) !important;
   }
 
