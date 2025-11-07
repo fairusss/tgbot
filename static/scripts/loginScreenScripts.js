@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       active.blur();
     }
   });
-  // showPage2();
+  showPage2();
 
   // 🪪 Login button → request Telegram contact
   loginBtn.addEventListener('click', async () => {

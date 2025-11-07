@@ -47,7 +47,7 @@ div.content-container {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Noto Sans Display", sans-serif;
+  font-family: "Outfit", sans-serif;
   font-weight: 500;
   opacity: 0;
   transition: opacity 0.35s ease, transform 0.35s ease;
@@ -85,7 +85,7 @@ div.content-container {
 /* Input Styles */
 input {
   background-color: #3a3a3d;
-  font-family: "Noto Sans Display", sans-serif;
+  font-family: "Outfit", sans-serif;
   outline: none;
   text-align: center;
   font-size: 1.3em;
@@ -98,7 +98,7 @@ input {
 }
 
 #page3 input {
-  font-family: "Noto Sans Display", sans-serif;
+  font-family: "Outfit", sans-serif;
   padding: 0px;
   letter-spacing: 0px;
   width: 16.5rem;
