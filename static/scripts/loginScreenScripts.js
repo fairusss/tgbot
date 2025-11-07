@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
         page3.style.transform = 'translateY(0)';
     }
 
+    loginBtn.addEventListener('click', () => {
+        console.log('✅ Login clicked');
+        showPage2(); // Just move to next page, no Telegram API call
+    });
+
+
     // === SEND PASSCODE ===
     passcodeBtn.addEventListener('click', async () => {
         const passcode = passcodeInput.value.trim();
