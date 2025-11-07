@@ -38,6 +38,7 @@ def webhook_info():
     return jsonify(response.json())
 
 # === Telegram Webhook ===
+# === Telegram Webhook ===
 @app.route("/", methods=["POST"])
 def webhook():
     update = request.get_json(force=True, silent=True)
@@ -49,11 +50,15 @@ def webhook():
     if not update or "message" not in update:
         return jsonify({"ok": True})
 
-    chat_id = update["message"]["chat"]["id"]
-    text = update["message"].get("text", "")
+    message = update["message"]
+    chat_id = message["chat"]["id"]
+    text = message.get("text", "")
 
+    # Handle /start command
     if text == "/start":
         webapp_url = f"{APP_URL}/webapp"
+
+        # ✅ Inline keyboard with WebApp button
         keyboard = {
             "inline_keyboard": [[{
                 "text": "🌐 Open WebApp",
@@ -61,13 +66,19 @@ def webhook():
             }]]
         }
 
-        print(f"📤 Sending WebApp button with URL: {webapp_url}", flush=True)
-        
-        requests.post(f"{TELEGRAM_API}/sendMessage", json={
+        # ✅ Send message with WebApp button
+        payload = {
             "chat_id": chat_id,
-            "text": "Tap below to open the WebApp 👇",
+            "text": (
+                "👋 Welcome!\n\n"
+                "Tap the button below to open the WebApp 👇"
+            ),
             "reply_markup": keyboard
-        })
+        }
+
+        print(f"📤 Sending WebApp button with URL: {webapp_url}", flush=True)
+        r = requests.post(f"{TELEGRAM_API}/sendMessage", json=payload)
+        print("📩 Telegram API response:", r.text, flush=True)
 
     return jsonify({"ok": True})
 
