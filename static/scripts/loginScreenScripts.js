@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tg = window.Telegram.WebApp;
-
+    tg.ready(); 
     let page = 'page1';
 
+
+    alert("✅ Telegram WebApp initialized");
+    alert("initData:", tg.initData);
+    alert("initDataUnsafe:", tg.initDataUnsafe);
     const loginBtn = document.getElementById('loginbtn');
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
