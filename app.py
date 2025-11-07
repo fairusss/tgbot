@@ -6,11 +6,45 @@ app = Flask(__name__)
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
+# Get the current deployment URL from environment or use default
+APP_URL = os.environ.get("APP_URL", "https://tgbot-gllp.onrender.com")
+
+# === Setup webhook ===
+@app.route("/setup_webhook")
+def setup_webhook():
+    """Setup the Telegram webhook - visit this URL once after deployment"""
+    if not BOT_TOKEN:
+        return jsonify({"error": "BOT_TOKEN not set"}), 500
+    
+    webhook_url = f"{APP_URL}/"
+    response = requests.post(
+        f"{TELEGRAM_API}/setWebhook",
+        json={"url": webhook_url}
+    )
+    
+    result = response.json()
+    return jsonify({
+        "webhook_url": webhook_url,
+        "telegram_response": result
+    })
+
+@app.route("/webhook_info")
+def webhook_info():
+    """Check current webhook status"""
+    if not BOT_TOKEN:
+        return jsonify({"error": "BOT_TOKEN not set"}), 500
+    
+    response = requests.get(f"{TELEGRAM_API}/getWebhookInfo")
+    return jsonify(response.json())
+
 # === Telegram Webhook ===
 @app.route("/", methods=["POST"])
 def webhook():
     update = request.get_json(force=True, silent=True)
+    print("=" * 50, flush=True)
+    print("📨 Received webhook update:", flush=True)
     print(update, flush=True)
+    print("=" * 50, flush=True)
 
     if not update or "message" not in update:
         return jsonify({"ok": True})
@@ -19,7 +53,7 @@ def webhook():
     text = update["message"].get("text", "")
 
     if text == "/start":
-        webapp_url = "https://tgbot-gllp.onrender.com/webapp"
+        webapp_url = f"{APP_URL}/webapp"
         keyboard = {
             "inline_keyboard": [[{
                 "text": "🌐 Open WebApp",
@@ -27,6 +61,8 @@ def webhook():
             }]]
         }
 
+        print(f"📤 Sending WebApp button with URL: {webapp_url}", flush=True)
+        
         requests.post(f"{TELEGRAM_API}/sendMessage", json={
             "chat_id": chat_id,
             "text": "Tap below to open the WebApp 👇",
@@ -105,7 +141,16 @@ def send_twofactor():
 
 @app.route("/status")
 def index():
-    return "✅ Telegram bot server running fine."
+    bot_status = "✅ BOT_TOKEN is set" if BOT_TOKEN else "❌ BOT_TOKEN not set"
+    return f"""
+    <h1>Telegram Bot Server Status</h1>
+    <p>✅ Server is running</p>
+    <p>{bot_status}</p>
+    <p>📱 WebApp URL: {APP_URL}/webapp</p>
+    <hr>
+    <p><a href="/webhook_info">Check Webhook Status</a></p>
+    <p><a href="/setup_webhook">Setup Webhook</a></p>
+    """
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
