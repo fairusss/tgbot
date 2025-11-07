@@ -159,3 +159,28 @@ body, html {
   overscroll-behavior: none;
 }
 
+/* Center popup for all screen sizes */
+#popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+/* Page transitions */
+#page2, #page3 {
+  transform: translateY(20px);
+  opacity: 0;
+  display: none;
+  will-change: transform, opacity;
+  transition: transform 0.35s ease-out, opacity 0.3s ease-out;
+}
+
+/* Prevent keyboard push / iOS bounce */
+html, body {
+  height: 100%;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+

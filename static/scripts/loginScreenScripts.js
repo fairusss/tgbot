@@ -56,30 +56,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 📱 Transition helpers
+  // 📱 Transition helper (fade + slide)
   function smoothTransition(showEl, hideEls = []) {
-    hideEls.forEach((el) => (el.style.display = 'none'));
+    hideEls.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-20px)';
+      setTimeout(() => (el.style.display = 'none'), 250);
+    });
+
     showEl.style.display = 'flex';
-    showEl.style.transform = 'translateY(40px)';
     showEl.style.opacity = '0';
+    showEl.style.transform = 'translateY(20px)';
 
     requestAnimationFrame(() => {
-      showEl.style.transform = 'translateY(0)';
+      showEl.style.transition = 'transform 0.35s ease-out, opacity 0.3s ease-out';
       showEl.style.opacity = '1';
+      showEl.style.transform = 'translateY(0)';
     });
   }
 
+  // Page controls
   function showPage2() {
     currentPage = 'page2';
-    smoothTransition(page2, [page1]);
+    popup.style.height = '400px';
     blur.style.opacity = '1';
+    smoothTransition(page2, [page1]);
   }
 
   function showPage3() {
     currentPage = 'page3';
-    smoothTransition(page3, [page2]);
     popup.style.height = '340px';
     blur.style.opacity = '1';
+    smoothTransition(page3, [page2]);
   }
 
   // 🧩 Handle passcode
@@ -134,17 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 🔢 Passcode box input visual
+  // 🔢 Passcode box input visual (fast GPU rendering)
   box.addEventListener('click', () => input.focus());
   input.addEventListener('input', () => {
     const value = input.value.split('');
     cells.forEach((cell, i) => {
+      const filled = !!value[i];
       cell.textContent = value[i] || '';
-      if (value[i]) {
-        cell.style.boxShadow = '0 0 0.3rem 0.1rem #59be4a';
-      } else {
-        cell.style.boxShadow = '';
-      }
+      cell.style.transition = 'box-shadow 0.15s ease';
+      cell.style.boxShadow = filled ? '0 0 0.3rem 0.1rem #59be4a' : 'none';
     });
   });
 });
