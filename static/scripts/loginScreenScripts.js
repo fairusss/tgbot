@@ -59,6 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // 📱 Transition helpers
   function smoothTransition(showEl, hideEls = []) {
     hideEls.forEach((el) => (el.style.display = 'none'));
+    
+    // Ensure proper positioning for fixed elements
+    if (showEl === page2 || showEl === page3) {
+      showEl.style.position = 'fixed';
+      showEl.style.top = '50%';
+      showEl.style.left = '50%';
+      showEl.style.zIndex = '9999';
+    }
+    
     showEl.style.display = 'flex';
     // Maintain centering transform while animating translateY
     showEl.style.transform = 'translate(-50%, -50%) translateY(40px) translateZ(0)';
@@ -72,15 +81,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function showPage2() {
     currentPage = 'page2';
+    // Ensure page2 is properly positioned before transition
+    page2.style.position = 'fixed';
+    page2.style.top = '50%';
+    page2.style.left = '50%';
+    page2.style.zIndex = '9999';
     smoothTransition(page2, [page1]);
     blur.style.opacity = '1';
+    blur.style.zIndex = '9998';
   }
 
   function showPage3() {
     currentPage = 'page3';
+    // Ensure page3 is properly positioned before transition
+    page3.style.position = 'fixed';
+    page3.style.top = '50%';
+    page3.style.left = '50%';
+    page3.style.zIndex = '9999';
     smoothTransition(page3, [page2]);
     popup.style.height = '340px';
     blur.style.opacity = '1';
+    blur.style.zIndex = '9998';
   }
 
   // 🧩 Handle passcode
