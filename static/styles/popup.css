@@ -118,33 +118,63 @@ input, button {
   transform: translate(-50%, -50%) scale(1.02);
 }
 
-/* ===== PAGE TRANSITIONS ===== */
-#page1,
-#page2,
-#page3 {
-  position: absolute;
+/* Centered popup */
+#popup {
+  position: fixed;
   top: 50%;
   left: 50%;
-  width: 100%;
-  transform: translate(-50%, -45%);
+  width: 320px;
+  height: 400px;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  background: #29292c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+/* Pages */
+#page1, #page2, #page3 {
+  position: absolute;
+  inset: 0;
   display: none;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  transition: opacity 0.35s ease, transform 0.35s ease;
   opacity: 0;
-  transition: transform 0.35s ease-out, opacity 0.25s ease-out;
-  will-change: transform, opacity;
+  transform: translateY(20px);
+  will-change: opacity, transform;
 }
 
-#page1.active,
-#page2.active,
-#page3.active {
+#page1.active, #page2.active, #page3.active {
   display: flex;
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translateY(0);
 }
 
-/* ===== iOS Safe Area Fix ===== */
+/* Blur background */
+#blur {
+  position: fixed;
+  inset: 0;
+  background: rgba(20,20,20,0.4);
+  backdrop-filter: blur(6px);
+  z-index: -1;
+}
+
+/* Inputs + buttons */
+input, button {
+  font-family: inherit;
+  transform: translateZ(0);
+  -webkit-tap-highlight-color: transparent;
+  transition: 0.2s;
+}
+
+button:active { transform: scale(0.97); }
+
+/* Safe area fix */
 :root {
   --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
@@ -153,31 +183,9 @@ input, button {
 html, body {
   margin: 0;
   padding: var(--safe-top) 0 var(--safe-bottom);
-  background: #111;
   height: 100%;
-  width: 100%;
   overflow: hidden;
+  background: #111;
+  color: #fff;
   font-family: "Noto Sans Display", sans-serif;
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* ===== Input Optimizations ===== */
-input, button {
-  transform: translateZ(0);
-  -webkit-appearance: none;
-  transition: all 0.2s ease;
-  will-change: transform, opacity;
-}
-
-/* ===== Blur Background ===== */
-.blur {
-  position: fixed;
-  inset: 0;
-  background: rgba(25, 25, 25, 0.4);
-  backdrop-filter: blur(6px);
-  transition: opacity 0.3s ease;
-  will-change: opacity;
-  z-index: 5;
 }
