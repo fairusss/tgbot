@@ -159,28 +159,39 @@ body, html {
   overscroll-behavior: none;
 }
 
-/* Center popup for all screen sizes */
+/* Active state for visible page */
+#page2.active,
+#page3.active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.35s ease-out, opacity 0.25s ease-out;
+}
+
+#page2,
+#page3 {
+  transform: translateY(40px);
+  opacity: 0;
+  transition: transform 0.35s ease-out, opacity 0.25s ease-out;
+  will-change: transform, opacity;
+}
+
+/* Fix popup visibility & prevent cutoff */
 #popup {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform 0.4s ease, opacity 0.3s ease;
-}
-
-/* Page transitions */
-#page2, #page3 {
-  transform: translateY(20px);
-  opacity: 0;
-  display: none;
+  transform: translate(-50%, -45%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   will-change: transform, opacity;
-  transition: transform 0.35s ease-out, opacity 0.3s ease-out;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(-50%, -45%, 0);
 }
 
-/* Prevent keyboard push / iOS bounce */
-html, body {
-  height: 100%;
-  overscroll-behavior: none;
-  touch-action: manipulation;
+/* Better input response */
+input, button {
+  transform: translateZ(0);
+  transition: all 0.2s ease;
 }
-
