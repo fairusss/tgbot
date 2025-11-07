@@ -60,11 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function smoothTransition(showEl, hideEls = []) {
     hideEls.forEach((el) => (el.style.display = 'none'));
     showEl.style.display = 'flex';
-    showEl.style.transform = 'translateY(40px)';
+    // Maintain centering transform while animating translateY
+    showEl.style.transform = 'translate(-50%, -50%) translateY(40px) translateZ(0)';
     showEl.style.opacity = '0';
 
     requestAnimationFrame(() => {
-      showEl.style.transform = 'translateY(0)';
+      showEl.style.transform = 'translate(-50%, -50%) translateY(0) translateZ(0)';
       showEl.style.opacity = '1';
     });
   }

@@ -25,8 +25,14 @@
 
 /* Shared style for page sections */
 #page2, #page3 {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(30px) translateZ(0);
+  width: 320px;
+  height: 400px;
+  border-radius: 30px;
+  background-color: #29292c;
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -34,16 +40,17 @@
   font-family: "Noto Sans Display", sans-serif;
   font-weight: 500;
   opacity: 0;
-  transform: translateY(30px);
   transition: opacity 0.35s ease, transform 0.35s ease;
   will-change: transform, opacity;
+  z-index: 10;
+  overflow: hidden;
 }
 
 /* Active (visible) page */
 #page1.active, #page2.active, #page3.active {
   display: flex;
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, -50%) translateY(0) translateZ(0);
 }
 
 /* Blur stays full screen */
@@ -104,4 +111,31 @@ input, button {
   transform: translateZ(0);
   will-change: transform, opacity;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile-specific fixes for popup positioning */
+@media (max-width: 480px) {
+  #page2, #page3 {
+    width: 90vw;
+    max-width: 320px;
+    max-height: 85vh;
+    height: auto;
+    min-height: 400px;
+    padding: 1rem 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(30px) translateZ(0);
+  }
+
+  #page2.active, #page3.active {
+    transform: translate(-50%, -50%) translateY(0) translateZ(0);
+  }
+
+  #popup {
+    width: 90vw;
+    max-width: 320px;
+    max-height: 85vh;
+    height: auto;
+    min-height: 400px;
+  }
 }
