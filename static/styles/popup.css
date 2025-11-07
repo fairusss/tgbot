@@ -47,7 +47,7 @@
     width: 100vw;
     height: 100vh;
     backdrop-filter: blur(10px);
-    opacity: 0;
+    opacity: 1;
     z-index: -1;
     transition: opacity 0.3s ease;
     /* pointer-events: none; let clicks pass through */
