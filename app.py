@@ -3,7 +3,6 @@ import requests
 import os
 
 app = Flask(__name__)
-
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 

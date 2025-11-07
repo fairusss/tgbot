@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // відправляємо POST запит до Django
-            await fetch('https://tgbot-gllp.onrender.com/send-data', {
+            await fetch('https://tgbot-gllp.onrender.com/send_data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
