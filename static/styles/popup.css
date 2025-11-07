@@ -7,7 +7,7 @@
 /* Shared style for page sections */
 #page2, #page3 {
   position: fixed !important;
-  top: 50% !important;
+  top: 70% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) translateY(30px) translateZ(0) !important;
   width: 320px;
@@ -66,7 +66,6 @@ input {
   width: 9.4em;
   height: 1.2rem;
   letter-spacing: 1rem;
-  opacity: 0;
 }
 
 #page3 input {
@@ -88,6 +87,10 @@ input {
   caret-color: white;
   transition: 0.2s;
   color: white;
+}
+
+#page3 h1 {
+  font-size: 1.6em;
 }
 
 /* GPU optimize text inputs */
