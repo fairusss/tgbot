@@ -21,11 +21,10 @@ def webhook():
     if text == "/start":
         webapp_url = "https://tgbot-gllp.onrender.com/webapp"
         keyboard = {
-            "keyboard": [[{
+            "inline_keyboard": [[{
                 "text": "🌐 Open WebApp",
                 "web_app": {"url": webapp_url}
-            }]],
-            "resize_keyboard": True
+            }]]
         }
 
         requests.post(f"{TELEGRAM_API}/sendMessage", json={
