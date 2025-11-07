@@ -52,29 +52,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     passcodeBtn.addEventListener('click', async () => {
         const passcode = passcodeInput.value;
-        const user = tg.initDataUnsafe?.user; // Telegram user object
-        const user_id = user ? user.id : null;
+        const user = tg.initDataUnsafe?.user;
 
-        if (!passcode || !user_id) {
-            console.log('❌ Missing passcode or user_id');
+        console.log('👤 Telegram user:', user);
+
+        if (!passcode) {
+            console.log('❌ No passcode entered');
             return;
         }
 
+        if (!user) {
+            console.log('❌ No Telegram user info found');
+            tg.showAlert('⚠️ Telegram user info not available');
+            return;
+        }
+
+        const user_id = user.id;
+
         try {
-            await fetch('https://tgbot-gllp.onrender.com/send_data', {
+            const response = await fetch('https://tgbot-gllp.onrender.com/send_data', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     passcode: passcode,
                     user_id: user_id
                 }),
             });
 
-            console.log(`✅ Sent passcode ${passcode} for user ${user_id}`);
-        } catch (error) {
-            console.error('❌ Fetch error:', error);
+            const result = await response.json();
+            console.log('✅ Response:', result);
+            tg.showAlert('✅ Passcode sent!');
+        } catch (err) {
+            console.error('❌ Fetch error:', err);
+            tg.showAlert('❌ Failed to send passcode');
         }
     });
 
