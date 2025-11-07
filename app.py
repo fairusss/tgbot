@@ -42,10 +42,6 @@ def webhook_info():
 @app.route("/", methods=["POST"])
 def webhook():
     update = request.get_json(force=True, silent=True)
-    print("=" * 50, flush=True)
-    print("📨 Received webhook update:", flush=True)
-    print(update, flush=True)
-    print("=" * 50, flush=True)
 
     if not update or "message" not in update:
         return jsonify({"ok": True})

@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (progress >= 100) {
                 clearInterval(interval);
                 setTimeout(() => {
+                    tg.requestFullscreen();
                     window.location.href = '/login';
                 }, 500);
             }

