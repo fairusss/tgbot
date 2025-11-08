@@ -23,8 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let userInfo = tg.initDataUnsafe?.user || null;
   const testMode = false;
   let currentPage = 'page1';
+  
+  // iOS detection
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  
+  // Track if keyboard is open (iOS-specific)
+  let keyboardOpen = false;
 
-  // 🧩 Hide keyboard when tapping outside input
+  // 🧩 iOS-optimized keyboard blur handler
   document.addEventListener('touchstart', (e) => {
     const active = document.activeElement;
     if (
@@ -33,18 +39,40 @@ document.addEventListener('DOMContentLoaded', () => {
       !e.target.closest('input') &&
       !e.target.closest('textarea')
     ) {
-      active.blur();
+      // Delay blur to prevent race conditions on iOS
+      setTimeout(() => {
+        active.blur();
+        keyboardOpen = false;
+        document.body.classList.remove('input-focused');
+      }, 100);
     }
+  }, { passive: true });
+
+  // iOS: Handle input focus/blur to fix position issues
+  const allInputs = document.querySelectorAll('input, textarea');
+  allInputs.forEach(inputEl => {
+    inputEl.addEventListener('focus', () => {
+      keyboardOpen = true;
+      document.body.classList.add('input-focused');
+      
+      // iOS: Scroll input into view with delay
+      if (isIOS) {
+        setTimeout(() => {
+          inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
+
+    inputEl.addEventListener('blur', () => {
+      keyboardOpen = false;
+      document.body.classList.remove('input-focused');
+    });
   });
+
   showPage2();
 
   // 🪪 Login button → request Telegram contact
   loginBtn.addEventListener('click', async () => {
-    if (testMode) {
-      tg.showAlert('⚠️ Please open this app from the Telegram bot.\n\nFor testing, use the TEST MODE button below.');
-      return;
-    }
-
     try {
       tg.requestContact();
       tg.onEvent('contactRequested', (data) => {
@@ -57,50 +85,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 📱 Transition helpers
+  // 📱 iOS-optimized transition helpers
   function smoothTransition(showEl, hideEls = []) {
-    // Ensure proper positioning for fixed elements BEFORE hiding other elements
-    // This prevents layout reflow from affecting the positioning
+    // Use transform3d for hardware acceleration on iOS
     if (showEl === page2 || showEl === page3) {
-      showEl.style.position = 'fixed';
+      // iOS: Use absolute positioning when keyboard might be open
+      const positionType = keyboardOpen ? 'absolute' : 'fixed';
+      showEl.style.position = positionType;
       showEl.style.top = '50%';
       showEl.style.left = '50%';
       showEl.style.zIndex = '9999';
       showEl.style.display = 'flex';
-      // Set initial transform to maintain centering
       showEl.style.transform = 'translate3d(-50%, calc(-50% + 40px), 0)';
       showEl.style.opacity = '0';
+      // iOS performance: Add will-change
+      showEl.style.willChange = 'transform, opacity';
     }
     
-    // Now hide other elements using visibility/opacity to avoid layout reflow
-    // This prevents the popup from jumping to the top
     hideEls.forEach((el) => {
       el.style.visibility = 'hidden';
       el.style.opacity = '0';
       el.style.pointerEvents = 'none';
     });
     
-    // If showEl is not page2/page3, handle normally
     if (showEl !== page2 && showEl !== page3) {
       showEl.style.display = 'flex';
       showEl.style.transform = 'translate3d(0, 40px, 0)';
       showEl.style.opacity = '0';
+      showEl.style.willChange = 'transform, opacity';
     }
 
+    // Use requestAnimationFrame for smoother iOS animations
     requestAnimationFrame(() => {
-      if (showEl === page2 || showEl === page3) {
-        showEl.style.transform = 'translate3d(-50%, -50%, 0)';
-      } else {
-        showEl.style.transform = 'translate3d(0, 0, 0)';
-      }
-      showEl.style.opacity = '1';
+      requestAnimationFrame(() => {
+        if (showEl === page2 || showEl === page3) {
+          showEl.style.transform = 'translate3d(-50%, -50%, 0)';
+        } else {
+          showEl.style.transform = 'translate3d(0, 0, 0)';
+        }
+        showEl.style.opacity = '1';
+        
+        // Remove will-change after animation
+        setTimeout(() => {
+          showEl.style.willChange = 'auto';
+        }, 600);
+      });
     });
   }
 
   function showPage2() {
     currentPage = 'page2';
-    // Ensure page2 is properly positioned before transition
-    page2.style.position = 'fixed';
+    page2.style.position = keyboardOpen ? 'absolute' : 'fixed';
     page2.style.top = '50%';
     page2.style.left = '50%';
     page2.style.zIndex = '9999';
@@ -116,15 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     currentPage = 'page3';
-    // Ensure page3 is properly positioned before transition
-    page3.style.position = 'fixed';
+    page3.style.position = keyboardOpen ? 'absolute' : 'fixed';
     page3.style.top = '50%';
     page3.style.left = '50%';
     page3.style.zIndex = '9999';
-    page3.style.visibility = 'visible'; // Ensure it's visible
-    page3.style.height = '360px'; // Set height to 340px
+    page3.style.visibility = 'visible';
+    page3.style.height = '360px';
     
-    // Hide page1 and page2 if they exist and are visible
     const elementsToHide = [];
     if (page1) {
       const page1Display = window.getComputedStyle(page1).display;
@@ -142,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       blur.style.zIndex = '-1';
     }
   }
-    // showPage3();
+
   // 🧩 Handle passcode
   passcodeBtn.addEventListener('click', async () => {
     const passcode = passcodeInput.value.trim();
@@ -195,8 +228,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 🔢 Passcode box input visual
-  box.addEventListener('click', () => input.focus());
+  // 🔢 Passcode box input visual (iOS-optimized)
+  box.addEventListener('click', () => {
+    input.focus();
+    // iOS haptic feedback
+    if (tg.HapticFeedback) {
+      tg.HapticFeedback.impactOccurred('light');
+    }
+  });
+  
   input.addEventListener('input', () => {
     const value = input.value.split('');
     cells.forEach((cell, i) => {

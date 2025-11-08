@@ -1,24 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Heebo:wght@100..900&family=Outfit:wght@100..900&display=swap');
-html, body {margin: 0; height: 100%; overflow: hidden}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+html, body {
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden;
+    /* iOS fix: prevent layout reflow */
+    position: fixed;
+    width: 100%;
+}
+
 @keyframes glow {
     0% {
-        
-    -webkit-box-shadow: 0px 0px 119px 0px rgba(12, 143, 0, 0.12);
-    -moz-box-shadow: 0px 0px 119px 0px rgba(12, 143, 0, 0.12);
-    box-shadow: 0px 0px 119px 0px rgba(12, 143, 0, 0.12);
+        box-shadow: 0px 0px 119px 0px rgba(12, 143, 0, 0.12);
     }
     50% {
-        
-    -webkit-box-shadow: 0px 0px 119px 12px rgba(12, 143, 0, 0.12);
-    -moz-box-shadow: 0px 0px 119px 12px rgba(12, 143, 0, 0.12);
-    box-shadow: 0px 0px 119px 12px rgba(12, 143, 0, 0.12);
+        box-shadow: 0px 0px 119px 12px rgba(12, 143, 0, 0.12);
     }
     100% {
-        
-    -webkit-box-shadow: 0px 0px 119px 24px rgba(12, 143, 0, 0.12);
-    -moz-box-shadow: 0px 0px 119px 24px rgba(12, 143, 0, 0.12);
-    box-shadow: 0px 0px 119px 24px rgba(12, 143, 0, 0.12);
+        box-shadow: 0px 0px 119px 24px rgba(12, 143, 0, 0.12);
     }
 }
 
@@ -28,23 +29,23 @@ body {
     background-color: #111;
     color: white;
     text-align: center;
+    /* iOS Safari optimization */
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS fix: convert fixed to absolute when input is focused */
+body.input-focused #page2,
+body.input-focused #page3 {
+    position: absolute !important;
 }
 
 .main-logo-container {
     background-color: rgb(23, 23, 23);
     border-radius: 50%;
-
-    display:flex;
-
-    /* border-radius: 100%; */
+    display: flex;
     height: 6rem;
     z-index: -3;
-    /* width: 19rem;
-    background-color: #28282c;
-    border-radius: 20px; 
-
-    фон для лого
-    */
 }
 
 .container {
@@ -56,7 +57,6 @@ body {
     font-size: 3em;
     margin-bottom: 10px;
     opacity: 0;
-
     animation: out 1s ease-out forwards;
 }
 
@@ -72,6 +72,31 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#loadbarcontainer {
+    width: 130px;
+}
+
+#loadbar {
+    width: 0%;
+    border-radius: 30px;
+    height: 4px;
+    background-color: rgb(255, 255, 255);
+    animation: out 1s ease-out forwards;
+    animation-delay: 1s;
+}
+
+@keyframes out {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* iOS input optimization */
+input, textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
 }
 
 #loadbarcontainer {
